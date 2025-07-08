@@ -1,0 +1,9 @@
+{
+    "main": "index.html",
+    "chapters": [
+        {
+            "title": "Cloud client",
+            "file": "cloud_client.html"
+        }
+    ]
+}
