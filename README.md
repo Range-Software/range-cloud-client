@@ -10,13 +10,9 @@ Following command will attempt to download and install all required packages, th
 ```
 sudo ./src/range-build-tools/prereqs.sh
 ```
-Next build directory needs to be created
-```
-mkdir build
-```
 ## Build
 ```
-cmake -S src -B build-Release
+cmake -S src -B build-Release && \
 cmake --build build-Release --parallel
 ```
 ## Create an installation packages and installers
