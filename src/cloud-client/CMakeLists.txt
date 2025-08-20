@@ -47,15 +47,9 @@ add_dependencies(cloud-client range-base-lib range-cloud-lib range-gui-lib)
 
 target_link_libraries(cloud-client
     PRIVATE
-        Qt6::Core
-        Qt6::Concurrent
-        Qt6::Network
-        Qt6::HttpServer
+        range-gui-lib
         Qt6::Widgets
         common_defines
-        range-base-lib
-        range-cloud-lib
-        range-gui-lib
 )
 
 set_target_properties(cloud-client
@@ -81,7 +75,7 @@ elseif (APPLE)
 
     add_custom_command(TARGET cloud-client POST_BUILD
         COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleName '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
-        COMMAND /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
+        COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist" || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
         COMMENT "Set CFBundleDisplayName"
     )
 endif()
