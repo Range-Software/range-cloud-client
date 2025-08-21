@@ -48,7 +48,6 @@ add_dependencies(cloud-client range-base-lib range-cloud-lib range-gui-lib)
 target_link_libraries(cloud-client
     PRIVATE
         range-gui-lib
-        Qt6::Widgets
         common_defines
 )
 
