@@ -115,22 +115,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_actions_tree.cpp" line="192"/>
+        <location filename="../src/cloud_actions_tree.cpp" line="193"/>
         <source>Action access owner update failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_actions_tree.cpp" line="192"/>
+        <location filename="../src/cloud_actions_tree.cpp" line="193"/>
         <source>Action access owner update in Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_actions_tree.cpp" line="220"/>
+        <location filename="../src/cloud_actions_tree.cpp" line="222"/>
         <source>Action access mode update failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_actions_tree.cpp" line="220"/>
+        <location filename="../src/cloud_actions_tree.cpp" line="222"/>
         <source>Action access mode update in Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -168,7 +168,7 @@
     <name>CloudAuthTokenManagerWidget</name>
     <message>
         <location filename="../src/cloud_auth_token_manager_widget.cpp" line="45"/>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="158"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="159"/>
         <source>Token</source>
         <translation type="unfinished"></translation>
     </message>
@@ -204,72 +204,72 @@
     </message>
     <message>
         <location filename="../src/cloud_auth_token_manager_widget.cpp" line="97"/>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="159"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="160"/>
         <source>Validity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="155"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="156"/>
         <source>User authentication token was generated successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="157"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="158"/>
         <source>Resource</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="161"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="162"/>
         <source>User authentication token was generated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="169"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="170"/>
         <source>User authentication token was removed successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="171"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="172"/>
         <source>User authentication token was removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="177"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="178"/>
         <source>Would you like to generate a temporary authentication token for selected user?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="179"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="180"/>
         <source>Generate user token?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="188"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="189"/>
         <source>Generation of user token failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="188"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="189"/>
         <source>Generation of temporary user authentication token on Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="199"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="201"/>
         <source>Are you sure you want to remove selected user authentication token?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="202"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="204"/>
         <source>Remove user token?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="211"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="213"/>
         <source>Removal of user authentication token failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="211"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="213"/>
         <source>Removal of temporary user authentication token from Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -335,7 +335,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_groups_tree.cpp" line="184"/>
+        <location filename="../src/cloud_groups_tree.cpp" line="185"/>
         <source>Removing user group from Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -365,17 +365,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_groups_tree.cpp" line="174"/>
+        <location filename="../src/cloud_groups_tree.cpp" line="175"/>
         <source>Are you sure you want to remove user group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_groups_tree.cpp" line="175"/>
+        <location filename="../src/cloud_groups_tree.cpp" line="176"/>
         <source>Remove user group?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_groups_tree.cpp" line="184"/>
+        <location filename="../src/cloud_groups_tree.cpp" line="185"/>
         <source>Removing user group failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -462,32 +462,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="207"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="208"/>
         <source>Process access owner update failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="207"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="208"/>
         <source>Process access owner update in Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="235"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="237"/>
         <source>Process access mode update failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="235"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="237"/>
         <source>Process access mode update in Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="289"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="292"/>
         <source>Process has failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="289"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="292"/>
         <source>Process in Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -503,27 +503,27 @@
 <context>
     <name>CloudSessionListWidget</name>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="30"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="31"/>
         <source>Set active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="34"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="35"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="37"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="38"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="120"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="124"/>
         <source>Are you sure you want to permanently remove selected session?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="121"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="125"/>
         <source>Remove selected session?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -721,12 +721,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="251"/>
+        <location filename="../src/cloud_users_tree.cpp" line="253"/>
         <source>Updating user on Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="220"/>
+        <location filename="../src/cloud_users_tree.cpp" line="221"/>
         <source>Removing user from Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -736,22 +736,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="251"/>
+        <location filename="../src/cloud_users_tree.cpp" line="253"/>
         <source>Updating user failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="210"/>
+        <location filename="../src/cloud_users_tree.cpp" line="211"/>
         <source>Are you sure you want to remove user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="211"/>
+        <location filename="../src/cloud_users_tree.cpp" line="212"/>
         <source>Remove user?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="220"/>
+        <location filename="../src/cloud_users_tree.cpp" line="221"/>
         <source>Removing user failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -759,48 +759,28 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/main_window.cpp" line="46"/>
+        <location filename="../src/main_window.cpp" line="47"/>
         <source>Client tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="102"/>
+        <location filename="../src/main_window.cpp" line="103"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="110"/>
+        <location filename="../src/main_window.cpp" line="111"/>
         <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="116"/>
+        <location filename="../src/main_window.cpp" line="117"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="133"/>
+        <location filename="../src/main_window.cpp" line="134"/>
         <source>Main toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main_window.cpp" line="344"/>
-        <source>Downloading file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main_window.cpp" line="352"/>
-        <source>Bytes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main_window.cpp" line="364"/>
-        <source>Downloading</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main_window.cpp" line="370"/>
-        <source>Download complete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

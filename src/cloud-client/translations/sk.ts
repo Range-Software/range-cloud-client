@@ -115,22 +115,22 @@
         <translation>Prístupové práva</translation>
     </message>
     <message>
-        <location filename="../src/cloud_actions_tree.cpp" line="192"/>
+        <location filename="../src/cloud_actions_tree.cpp" line="193"/>
         <source>Action access owner update failed</source>
         <translation>Nepodarilo sa zmeniť vlastníka prístupu</translation>
     </message>
     <message>
-        <location filename="../src/cloud_actions_tree.cpp" line="192"/>
+        <location filename="../src/cloud_actions_tree.cpp" line="193"/>
         <source>Action access owner update in Cloud has failed.</source>
         <translation>Nepodarilo sa zmeniť vlastníka prístupu v Cloude.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_actions_tree.cpp" line="220"/>
+        <location filename="../src/cloud_actions_tree.cpp" line="222"/>
         <source>Action access mode update failed</source>
         <translation>Nepodarilo sa zmeniť obmedzenia prístupu</translation>
     </message>
     <message>
-        <location filename="../src/cloud_actions_tree.cpp" line="220"/>
+        <location filename="../src/cloud_actions_tree.cpp" line="222"/>
         <source>Action access mode update in Cloud has failed.</source>
         <translation>Nepodarilo sa zmeniť obmedzenia prístupu v Cloude.</translation>
     </message>
@@ -168,7 +168,7 @@
     <name>CloudAuthTokenManagerWidget</name>
     <message>
         <location filename="../src/cloud_auth_token_manager_widget.cpp" line="45"/>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="158"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="159"/>
         <source>Token</source>
         <translation></translation>
     </message>
@@ -204,72 +204,72 @@
     </message>
     <message>
         <location filename="../src/cloud_auth_token_manager_widget.cpp" line="97"/>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="159"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="160"/>
         <source>Validity</source>
         <translation>Platnosť</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="155"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="156"/>
         <source>User authentication token was generated successfully.</source>
         <translation>Overovací token uživateľa bol úspešne vygenerovaný.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="157"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="158"/>
         <source>Resource</source>
         <translation>Prostriedok</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="161"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="162"/>
         <source>User authentication token was generated</source>
         <translation>Overovací token uživateľa bol vygenerovaný</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="169"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="170"/>
         <source>User authentication token was removed successfully.</source>
         <translation>Overovací token uživateľa bol úspešne vymazaný.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="171"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="172"/>
         <source>User authentication token was removed</source>
         <translation>Overovací token uživateľa bol vymazaný</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="177"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="178"/>
         <source>Would you like to generate a temporary authentication token for selected user?</source>
         <translation>Vygenerovať dočasný overovací token pre vybraného užívateľa?</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="179"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="180"/>
         <source>Generate user token?</source>
         <translation>Generovať užívateľský token?</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="188"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="189"/>
         <source>Generation of user token failed</source>
         <translation>Generovanie užívateľského tokenu zlyhalo</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="188"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="189"/>
         <source>Generation of temporary user authentication token on Cloud has failed.</source>
         <translation>Generovanie dočasného užívateľského tokenu v Cloude zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="199"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="201"/>
         <source>Are you sure you want to remove selected user authentication token?</source>
         <translation>Naozaj zmazať vybraný dočasný overovací token?</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="202"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="204"/>
         <source>Remove user token?</source>
         <translation>Vymazať užívateľský token?</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="211"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="213"/>
         <source>Removal of user authentication token failed</source>
         <translation>Nepodarilo sa vymazať overovací token</translation>
     </message>
     <message>
-        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="211"/>
+        <location filename="../src/cloud_auth_token_manager_widget.cpp" line="213"/>
         <source>Removal of temporary user authentication token from Cloud has failed.</source>
         <translation>Nepodarilo sa vymazať dočasný overovací token v Cloude.</translation>
     </message>
@@ -335,7 +335,7 @@
         <translation>Pridanie novej užívateľskej skupiny zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_groups_tree.cpp" line="184"/>
+        <location filename="../src/cloud_groups_tree.cpp" line="185"/>
         <source>Removing user group from Cloud has failed.</source>
         <translation>Odstránenie užívateľskej skupiny z Cloudu zlyhalo.</translation>
     </message>
@@ -365,17 +365,17 @@
         <translation>Pridanie novej užívateľskej skupiny zlyhalo</translation>
     </message>
     <message>
-        <location filename="../src/cloud_groups_tree.cpp" line="174"/>
+        <location filename="../src/cloud_groups_tree.cpp" line="175"/>
         <source>Are you sure you want to remove user group</source>
         <translation>Naozaj chcete odstrániť užívateľskú skupinu</translation>
     </message>
     <message>
-        <location filename="../src/cloud_groups_tree.cpp" line="175"/>
+        <location filename="../src/cloud_groups_tree.cpp" line="176"/>
         <source>Remove user group?</source>
         <translation>Odstrániť užívateľskú skupinu?</translation>
     </message>
     <message>
-        <location filename="../src/cloud_groups_tree.cpp" line="184"/>
+        <location filename="../src/cloud_groups_tree.cpp" line="185"/>
         <source>Removing user group failed</source>
         <translation>Odstránienie užívateľskej skupiny zlyhalo</translation>
     </message>
@@ -462,32 +462,32 @@
         <translation>Proces dobehol</translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="207"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="208"/>
         <source>Process access owner update failed</source>
         <translation>Nepodarilo sa zmeniť vlastníka prístupu</translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="207"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="208"/>
         <source>Process access owner update in Cloud has failed.</source>
         <translation>Nepodarilo sa zmeniť vlastníka prístupu v Cloude.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="235"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="237"/>
         <source>Process access mode update failed</source>
         <translation>Nepodarilo sa zmeniť obmedzenia prístupu</translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="235"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="237"/>
         <source>Process access mode update in Cloud has failed.</source>
         <translation>Nepodarilo sa zmeniť obmedzenia prístupu v Cloude.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="289"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="292"/>
         <source>Process has failed</source>
         <translation>Proces zlyhal</translation>
     </message>
     <message>
-        <location filename="../src/cloud_processes_tree.cpp" line="289"/>
+        <location filename="../src/cloud_processes_tree.cpp" line="292"/>
         <source>Process in Cloud has failed.</source>
         <translation>Procesu v Cloude zlyhal.</translation>
     </message>
@@ -503,27 +503,27 @@
 <context>
     <name>CloudSessionListWidget</name>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="30"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="31"/>
         <source>Set active</source>
         <translation>Aktivovať</translation>
     </message>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="34"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="35"/>
         <source>Add</source>
         <translation>Pridať</translation>
     </message>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="37"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="38"/>
         <source>Remove</source>
         <translation>Odstrániť</translation>
     </message>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="120"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="124"/>
         <source>Are you sure you want to permanently remove selected session?</source>
         <translation>Naozaj chcete odstrániť vybranú reláciu?</translation>
     </message>
     <message>
-        <location filename="../src/cloud_session_list_widget.cpp" line="121"/>
+        <location filename="../src/cloud_session_list_widget.cpp" line="125"/>
         <source>Remove selected session?</source>
         <translation>Odstrániť vybranú reláciu?</translation>
     </message>
@@ -721,12 +721,12 @@
         <translation>Pridanie nového užívateľa do Cloudu zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="251"/>
+        <location filename="../src/cloud_users_tree.cpp" line="253"/>
         <source>Updating user on Cloud has failed.</source>
         <translation>Aktualizácia uživateľa v Cloude zlyhala.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="220"/>
+        <location filename="../src/cloud_users_tree.cpp" line="221"/>
         <source>Removing user from Cloud has failed.</source>
         <translation>Odstránenie uživateľa z Cloudu zlyhalo.</translation>
     </message>
@@ -736,22 +736,22 @@
         <translation>Pridanie nového užívateľa zlyhalo</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="251"/>
+        <location filename="../src/cloud_users_tree.cpp" line="253"/>
         <source>Updating user failed</source>
         <translation>Aktualizácia uživateľa v zlyhala</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="210"/>
+        <location filename="../src/cloud_users_tree.cpp" line="211"/>
         <source>Are you sure you want to remove user</source>
         <translation>Naozaj chcete odstrániť užívateľa</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="211"/>
+        <location filename="../src/cloud_users_tree.cpp" line="212"/>
         <source>Remove user?</source>
         <translation>Odstrániť užívateľa?</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="220"/>
+        <location filename="../src/cloud_users_tree.cpp" line="221"/>
         <source>Removing user failed</source>
         <translation>Odstránenie užívateľa zlyhalo</translation>
     </message>
@@ -759,49 +759,29 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/main_window.cpp" line="46"/>
+        <location filename="../src/main_window.cpp" line="47"/>
         <source>Client tool</source>
         <translation>Klientský nástroj</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="102"/>
+        <location filename="../src/main_window.cpp" line="103"/>
         <source>Application</source>
         <translation>Aplikácia</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="110"/>
+        <location filename="../src/main_window.cpp" line="111"/>
         <source>Session</source>
         <translation>Relácia</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="116"/>
+        <location filename="../src/main_window.cpp" line="117"/>
         <source>Help</source>
         <translation>Pomocník</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="133"/>
+        <location filename="../src/main_window.cpp" line="134"/>
         <source>Main toolbar</source>
         <translation>Hlavný panel nástrojov</translation>
-    </message>
-    <message>
-        <location filename="../src/main_window.cpp" line="344"/>
-        <source>Downloading file</source>
-        <translation>Sťahujem súbor</translation>
-    </message>
-    <message>
-        <location filename="../src/main_window.cpp" line="352"/>
-        <source>Bytes</source>
-        <translation>Bajtov</translation>
-    </message>
-    <message>
-        <location filename="../src/main_window.cpp" line="364"/>
-        <source>Downloading</source>
-        <translation>Sťahovanie</translation>
-    </message>
-    <message>
-        <location filename="../src/main_window.cpp" line="370"/>
-        <source>Download complete</source>
-        <translation>Sťahovanie dokončené</translation>
     </message>
 </context>
 <context>
