@@ -80,6 +80,7 @@ CloudUsersTree::CloudUsersTree(QWidget *parent)
     QObject::connect(this->cloudClient,&RCloudClient::userAdded,this,&CloudUsersTree::onUserAdded);
     QObject::connect(this->cloudClient,&RCloudClient::userUpdated,this,&CloudUsersTree::onUserUpdated);
     QObject::connect(this->cloudClient,&RCloudClient::userRemoved,this,&CloudUsersTree::onUserRemoved);
+    QObject::connect(this->cloudClient,&RCloudClient::userRegistered,this,&CloudUsersTree::onUserRegistered);
 
     QObject::connect(this->addButton,&QPushButton::clicked,this,&CloudUsersTree::onAddButtonClicked);
     QObject::connect(this->registerButton,&QPushButton::clicked,this,&CloudUsersTree::onRegisterButtonClicked);
@@ -187,6 +188,13 @@ void CloudUsersTree::onUserRemoved(QString userName)
 {
     RLogger::info("Cloud user was removed \'%s\'\n",userName.toUtf8().constData());
     RMessageBox::information(this,tr("User was removed"),tr("User was removed successfully."));
+    this->refreshCloudUsers();
+}
+
+void CloudUsersTree::onUserRegistered(std::tuple<RUserInfo, QList<RAuthToken> > registrationInfo)
+{
+    RLogger::info("Cloud user was registered \'%s\'\n",std::get<0>(registrationInfo).getName().toUtf8().constData());
+    RMessageBox::information(this,tr("User was registered"),tr("User was registered successfully."));
     this->refreshCloudUsers();
 }
 

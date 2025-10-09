@@ -71,6 +71,9 @@ class CloudUsersTree : public QWidget
         //! Cloud user was removed.
         void onUserRemoved(QString userName);
 
+        //! Cloud user was registered.
+        void onUserRegistered(std::tuple<RUserInfo,QList<RAuthToken>> registrationInfo);
+
         //! Add button clicked.
         void onAddButtonClicked();
 

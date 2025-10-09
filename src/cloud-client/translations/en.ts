@@ -671,102 +671,112 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="142"/>
+        <location filename="../src/cloud_users_tree.cpp" line="143"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="143"/>
+        <location filename="../src/cloud_users_tree.cpp" line="144"/>
         <source>Groups</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="157"/>
+        <location filename="../src/cloud_users_tree.cpp" line="158"/>
         <source>Cloud transfer failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="157"/>
+        <location filename="../src/cloud_users_tree.cpp" line="158"/>
         <source>List of users from Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="175"/>
+        <location filename="../src/cloud_users_tree.cpp" line="176"/>
         <source>User was added</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="175"/>
+        <location filename="../src/cloud_users_tree.cpp" line="176"/>
         <source>User was added successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="182"/>
+        <location filename="../src/cloud_users_tree.cpp" line="183"/>
         <source>User was updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="182"/>
+        <location filename="../src/cloud_users_tree.cpp" line="183"/>
         <source>User was updated successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="189"/>
+        <location filename="../src/cloud_users_tree.cpp" line="190"/>
         <source>User was removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="189"/>
+        <location filename="../src/cloud_users_tree.cpp" line="190"/>
         <source>User was removed successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="205"/>
+        <location filename="../src/cloud_users_tree.cpp" line="197"/>
+        <source>User was registered</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud_users_tree.cpp" line="197"/>
+        <source>User was registered successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud_users_tree.cpp" line="213"/>
         <source>Adding new user to Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="222"/>
+        <location filename="../src/cloud_users_tree.cpp" line="230"/>
         <source>Registering new user failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="222"/>
+        <location filename="../src/cloud_users_tree.cpp" line="230"/>
         <source>Registering new user to Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="274"/>
+        <location filename="../src/cloud_users_tree.cpp" line="282"/>
         <source>Updating user on Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="242"/>
+        <location filename="../src/cloud_users_tree.cpp" line="250"/>
         <source>Removing user from Cloud has failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="205"/>
+        <location filename="../src/cloud_users_tree.cpp" line="213"/>
         <source>Adding new user failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="274"/>
+        <location filename="../src/cloud_users_tree.cpp" line="282"/>
         <source>Updating user failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="232"/>
+        <location filename="../src/cloud_users_tree.cpp" line="240"/>
         <source>Are you sure you want to remove user</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="233"/>
+        <location filename="../src/cloud_users_tree.cpp" line="241"/>
         <source>Remove user?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="242"/>
+        <location filename="../src/cloud_users_tree.cpp" line="250"/>
         <source>Removing user failed</source>
         <translation type="unfinished"></translation>
     </message>
