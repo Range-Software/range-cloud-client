@@ -46,6 +46,9 @@ CloudUsersTree::CloudUsersTree(QWidget *parent)
     this->addButton = new QPushButton(addIcon,tr("Add"));
     buttonsLayout->addWidget(this->addButton);
 
+    this->registerButton = new QPushButton(addIcon,tr("Register"));
+    buttonsLayout->addWidget(this->registerButton);
+
     this->editButton = new QPushButton(editIcon,tr("Edit"));
     this->editButton->setDisabled(true);
     buttonsLayout->addWidget(this->editButton);
@@ -79,6 +82,7 @@ CloudUsersTree::CloudUsersTree(QWidget *parent)
     QObject::connect(this->cloudClient,&RCloudClient::userRemoved,this,&CloudUsersTree::onUserRemoved);
 
     QObject::connect(this->addButton,&QPushButton::clicked,this,&CloudUsersTree::onAddButtonClicked);
+    QObject::connect(this->registerButton,&QPushButton::clicked,this,&CloudUsersTree::onRegisterButtonClicked);
     QObject::connect(this->removeButton,&QPushButton::clicked,this,&CloudUsersTree::onRemoveButtonClicked);
     QObject::connect(this->refreshButton,&QPushButton::clicked,this,&CloudUsersTree::onRefreshButtonClicked);
 
@@ -199,6 +203,23 @@ void CloudUsersTree::onAddButtonClicked()
         {
             RLogger::error("Failed to request to add new user to Cloud. %s\n",rError.getMessage().toUtf8().constData());
             RMessageBox::critical(this,tr("Adding new user failed"),tr("Adding new user to Cloud has failed."));
+        }
+    }
+}
+
+void CloudUsersTree::onRegisterButtonClicked()
+{
+    CloudUserAddDialog userRegisterDialog(this);
+    if (userRegisterDialog.exec() == QDialog::Accepted)
+    {
+        try
+        {
+            this->cloudClient->requestUserRegister(userRegisterDialog.getUserName());
+        }
+        catch (const RError &rError)
+        {
+            RLogger::error("Failed to request to register new user to Cloud. %s\n",rError.getMessage().toUtf8().constData());
+            RMessageBox::critical(this,tr("Registering new user failed"),tr("Registering new user to Cloud has failed."));
         }
     }
 }

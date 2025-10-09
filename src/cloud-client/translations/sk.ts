@@ -642,116 +642,131 @@
     </message>
     <message>
         <location filename="../src/cloud_users_tree.cpp" line="49"/>
+        <source>Register</source>
+        <translation>Registrovať</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud_users_tree.cpp" line="52"/>
         <source>Edit</source>
         <translation>Upraviť</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="56"/>
+        <location filename="../src/cloud_users_tree.cpp" line="59"/>
         <source>Edit groups</source>
         <translation>Upraviť skupiny</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="59"/>
+        <location filename="../src/cloud_users_tree.cpp" line="62"/>
         <source>Edit tokens</source>
         <translation>Upraviť tokeny</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="64"/>
+        <location filename="../src/cloud_users_tree.cpp" line="67"/>
         <source>Refresh</source>
         <translation>Obnoviť</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="69"/>
+        <location filename="../src/cloud_users_tree.cpp" line="72"/>
         <source>Remove</source>
         <translation>Odstrániť</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="138"/>
+        <location filename="../src/cloud_users_tree.cpp" line="142"/>
         <source>Name</source>
         <translation>Názov</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="139"/>
+        <location filename="../src/cloud_users_tree.cpp" line="143"/>
         <source>Groups</source>
         <translation>Skupiny</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="153"/>
+        <location filename="../src/cloud_users_tree.cpp" line="157"/>
         <source>Cloud transfer failed</source>
         <translation>Prenos z Cloudu zlyhal</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="153"/>
+        <location filename="../src/cloud_users_tree.cpp" line="157"/>
         <source>List of users from Cloud has failed.</source>
         <translation>Nepodarilo sa získať zoznam užívateľov z Cloudu.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="171"/>
+        <location filename="../src/cloud_users_tree.cpp" line="175"/>
         <source>User was added</source>
         <translation>Užívateľ bol pridaný</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="171"/>
+        <location filename="../src/cloud_users_tree.cpp" line="175"/>
         <source>User was added successfully.</source>
         <translation>Užívateľ bol úspešne pridaný.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="178"/>
+        <location filename="../src/cloud_users_tree.cpp" line="182"/>
         <source>User was updated</source>
         <translation>Užívateľ bol aktualizovaný</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="178"/>
+        <location filename="../src/cloud_users_tree.cpp" line="182"/>
         <source>User was updated successfully.</source>
         <translation>Užívateľ bol úspešne aktualizovaný.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="185"/>
+        <location filename="../src/cloud_users_tree.cpp" line="189"/>
         <source>User was removed</source>
         <translation>Užívateľ bol odstránený</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="185"/>
+        <location filename="../src/cloud_users_tree.cpp" line="189"/>
         <source>User was removed successfully.</source>
         <translation>Užívateľ bol úspešne odstránený.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="201"/>
+        <location filename="../src/cloud_users_tree.cpp" line="205"/>
         <source>Adding new user to Cloud has failed.</source>
         <translation>Pridanie nového užívateľa do Cloudu zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="253"/>
+        <location filename="../src/cloud_users_tree.cpp" line="222"/>
+        <source>Registering new user failed</source>
+        <translation>Registrovanie nového užívateľa zlyhalo</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud_users_tree.cpp" line="222"/>
+        <source>Registering new user to Cloud has failed.</source>
+        <translation>Registrovanie nového užívateľa do Cloudu zlyhalo.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud_users_tree.cpp" line="274"/>
         <source>Updating user on Cloud has failed.</source>
         <translation>Aktualizácia uživateľa v Cloude zlyhala.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="221"/>
+        <location filename="../src/cloud_users_tree.cpp" line="242"/>
         <source>Removing user from Cloud has failed.</source>
         <translation>Odstránenie uživateľa z Cloudu zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="201"/>
+        <location filename="../src/cloud_users_tree.cpp" line="205"/>
         <source>Adding new user failed</source>
         <translation>Pridanie nového užívateľa zlyhalo</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="253"/>
+        <location filename="../src/cloud_users_tree.cpp" line="274"/>
         <source>Updating user failed</source>
         <translation>Aktualizácia uživateľa v zlyhala</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="211"/>
+        <location filename="../src/cloud_users_tree.cpp" line="232"/>
         <source>Are you sure you want to remove user</source>
         <translation>Naozaj chcete odstrániť užívateľa</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="212"/>
+        <location filename="../src/cloud_users_tree.cpp" line="233"/>
         <source>Remove user?</source>
         <translation>Odstrániť užívateľa?</translation>
     </message>
     <message>
-        <location filename="../src/cloud_users_tree.cpp" line="221"/>
+        <location filename="../src/cloud_users_tree.cpp" line="242"/>
         <source>Removing user failed</source>
         <translation>Odstránenie užívateľa zlyhalo</translation>
     </message>

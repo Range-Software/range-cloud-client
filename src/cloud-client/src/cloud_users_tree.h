@@ -22,6 +22,7 @@ class CloudUsersTree : public QWidget
         QTreeWidget *usersTree;
 
         QPushButton *addButton;
+        QPushButton *registerButton;
         QPushButton *editButton;
         QPushButton *refreshButton;
         QPushButton *removeButton;
@@ -72,6 +73,9 @@ class CloudUsersTree : public QWidget
 
         //! Add button clicked.
         void onAddButtonClicked();
+
+        //! Sign up button clicked.
+        void onRegisterButtonClicked();
 
         //! Remove button clicked.
         void onRemoveButtonClicked();
