@@ -11,8 +11,8 @@ class CloudSessionComboBox : public QWidget
 
     protected:
 
-        //! RCloudSessionManager.
-        RCloudSessionManager *session;
+        //! Cloud session manager.
+        RCloudSessionManager *cloudSessionManager;
 
         //! Combo box.
         QComboBox *comboBox;
@@ -20,7 +20,7 @@ class CloudSessionComboBox : public QWidget
     public:
 
         //! Constructor.
-        explicit CloudSessionComboBox(RCloudSessionManager *session, QWidget *parent = nullptr);
+        explicit CloudSessionComboBox(RCloudSessionManager *cloudSessionManager, QWidget *parent = nullptr);
 
     protected slots:
 

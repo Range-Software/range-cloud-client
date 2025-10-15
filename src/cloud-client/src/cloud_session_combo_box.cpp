@@ -3,9 +3,9 @@
 
 #include "cloud_session_combo_box.h"
 
-CloudSessionComboBox::CloudSessionComboBox(RCloudSessionManager *session, QWidget *parent)
+CloudSessionComboBox::CloudSessionComboBox(RCloudSessionManager *cloudSessionManager, QWidget *parent)
     : QWidget{parent}
-    , session{session}
+    , cloudSessionManager{cloudSessionManager}
 {
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->setContentsMargins(0,0,0,0);
@@ -15,18 +15,18 @@ CloudSessionComboBox::CloudSessionComboBox(RCloudSessionManager *session, QWidge
     mainLayout->addWidget(label);
 
     this->comboBox = new QComboBox;
-    QStringList sessionNames = this->session->getSessionNames();
+    QStringList sessionNames = this->cloudSessionManager->getSessionNames();
     for (const QString &name : std::as_const(sessionNames))
     {
         this->comboBox->addItem(name);
     }
-    this->comboBox->setCurrentText(this->session->findActiveSessionName());
+    this->comboBox->setCurrentText(this->cloudSessionManager->findActiveSessionName());
     mainLayout->addWidget(this->comboBox);
 
-    QObject::connect(this->session,&RCloudSessionManager::activeSessionChanged,this,&CloudSessionComboBox::onActiveSessionChanged);
-    QObject::connect(this->session,&RCloudSessionManager::sessionInserted,this,&CloudSessionComboBox::onSessionInserted);
-    QObject::connect(this->session,&RCloudSessionManager::sessionRenamed,this,&CloudSessionComboBox::onSessionRenamed);
-    QObject::connect(this->session,&RCloudSessionManager::sessionRemoved,this,&CloudSessionComboBox::onSessionRemoved);
+    QObject::connect(this->cloudSessionManager,&RCloudSessionManager::activeSessionChanged,this,&CloudSessionComboBox::onActiveSessionChanged);
+    QObject::connect(this->cloudSessionManager,&RCloudSessionManager::sessionInserted,this,&CloudSessionComboBox::onSessionInserted);
+    QObject::connect(this->cloudSessionManager,&RCloudSessionManager::sessionRenamed,this,&CloudSessionComboBox::onSessionRenamed);
+    QObject::connect(this->cloudSessionManager,&RCloudSessionManager::sessionRemoved,this,&CloudSessionComboBox::onSessionRemoved);
     QObject::connect(this->comboBox,&QComboBox::currentTextChanged,this,&CloudSessionComboBox::onComboBoxCurrentTextChanged);
 
 }
@@ -46,7 +46,7 @@ void CloudSessionComboBox::onSessionInserted(const QString &sessionName)
         bool signalsBlockedSaved = this->comboBox->signalsBlocked();
         this->comboBox->blockSignals(true);
         this->comboBox->addItem(sessionName);
-        this->comboBox->setCurrentText(this->session->findActiveSessionName());
+        this->comboBox->setCurrentText(this->cloudSessionManager->findActiveSessionName());
         this->comboBox->blockSignals(signalsBlockedSaved);
     }
 }
@@ -76,5 +76,5 @@ void CloudSessionComboBox::onSessionRemoved(const QString &sessionName)
 
 void CloudSessionComboBox::onComboBoxCurrentTextChanged(const QString &text)
 {
-    this->session->setActiveSessionName(text);
+    this->cloudSessionManager->setActiveSessionName(text);
 }
