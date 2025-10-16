@@ -83,11 +83,11 @@ jobs:
       # Configure
       - name: Configure (Unix)
         if: matrix.os != 'windows-latest'
-        run: cmake -S src -B build-Release -G Ninja
+        run: cmake -S src -B build-Release -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - name: Configure (Windows)
         if: matrix.os == 'windows-latest'
-        run: cmake -S src -B build-Release -G Ninja
+        run: cmake -S src -B build-Release -G Ninja -DCMAKE_BUILD_TYPE=Release
         shell: pwsh
 
       # Build
