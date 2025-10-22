@@ -124,24 +124,24 @@ jobs:
       # Build
       - name: Build (Unix)
         if: matrix.os != 'windows-latest'
-        run: cmake --build build-Release --parallel
+        run: cmake --build build-Release --target package --parallel
 
       - name: Build (Windows)
         if: matrix.os == 'windows-latest'
-        run: cmake --build build-Release --parallel
-        shell: pwsh
-
-      # Package
-      - name: CPack (Unix)
-        if: matrix.os != 'windows-latest'
-        run: cmake --build build-Release --target package --parallel
-        continue-on-error: true
-
-      - name: CPack (Windows)
-        if: matrix.os == 'windows-latest'
         run: cmake --build build-Release --target package --parallel
         shell: pwsh
-        continue-on-error: true
+
+#      # Package
+#      - name: CPack (Unix)
+#        if: matrix.os != 'windows-latest'
+#        run: cmake --build build-Release --target package --parallel
+#        continue-on-error: true
+#
+#      - name: CPack (Windows)
+#        if: matrix.os == 'windows-latest'
+#        run: cmake --build build-Release --target package --parallel
+#        shell: pwsh
+#        continue-on-error: true
 
       # Artifacts
       - name: Upload packages
