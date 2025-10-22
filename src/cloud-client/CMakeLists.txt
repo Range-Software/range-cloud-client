@@ -56,6 +56,7 @@ set_target_properties(cloud-client
         WIN32_EXECUTABLE TRUE
         MACOSX_BUNDLE TRUE
         MACOSX_BUNDLE_ICON_FILE "${PROJECT_PACKAGE_NAME}"
+        MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_SHORT_NAME}"
 )
 
 if (WIN32)
@@ -71,11 +72,11 @@ elseif (APPLE)
     set_source_files_properties("${APP_ICON}" PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
     target_sources(cloud-client PRIVATE "${APP_ICON}")
 
-    add_custom_command(TARGET cloud-client POST_BUILD
-        COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist" || /usr/libexec/PlistBuddy -c "Add :CFBundleName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
-        COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist" || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
-        COMMENT "Set CFBundleDisplayName"
-    )
+    #add_custom_command(TARGET cloud-client POST_BUILD
+    #    COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist" || /usr/libexec/PlistBuddy -c "Add :CFBundleName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
+    #    COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist" || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
+    #    COMMENT "Set CFBundleDisplayName"
+    #)
 endif()
 
 qt_add_resources(cloud-client icons-application
