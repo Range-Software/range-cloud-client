@@ -56,7 +56,6 @@ set_target_properties(cloud-client
         WIN32_EXECUTABLE TRUE
         MACOSX_BUNDLE TRUE
         MACOSX_BUNDLE_ICON_FILE "${PROJECT_PACKAGE_NAME}"
-        MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_SHORT_NAME}"
 )
 
 if (WIN32)
@@ -75,7 +74,6 @@ elseif (APPLE)
     add_custom_command(TARGET cloud-client POST_BUILD
         COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleName '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
         COMMAND /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
-#        COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist" || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
         COMMENT "Set CFBundleDisplayName"
     )
 endif()
