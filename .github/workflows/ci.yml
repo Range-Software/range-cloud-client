@@ -149,11 +149,35 @@ jobs:
           set -euo pipefail
           DMG="$(/usr/bin/find build-Release -name '*.dmg' -print -quit)"
           echo "DMG: $DMG"
+      
+          JSON_OUT="$(mktemp)"
           xcrun notarytool submit "$DMG" \
-            --key $HOME/.private_keys/AuthKey_${AC_API_KEY_ID}.p8 \
+            --key "$HOME/.private_keys/AuthKey_${AC_API_KEY_ID}.p8" \
             --key-id "$AC_API_KEY_ID" \
             --issuer "$AC_API_ISSUER_ID" \
-            --wait --timeout 20m --verbose
+            --wait --timeout 20m --output-format json > "$JSON_OUT"
+      
+          echo "Notarytool output:"
+          cat "$JSON_OUT"
+      
+          # Extract submission id and status using plutil (built-in)
+          SUBMISSION_ID=$(plutil -extract id raw -o - "$JSON_OUT")
+          STATUS=$(plutil -extract status raw -o - "$JSON_OUT" 2>/dev/null || echo "")
+      
+          echo "Submission ID: $SUBMISSION_ID"
+          echo "Status: $STATUS"
+      
+          # Always fetch and print the full log (super helpful when rejected)
+          xcrun notarytool log "$SUBMISSION_ID" \
+            --key "$HOME/.private_keys/AuthKey_${AC_API_KEY_ID}.p8" \
+            --key-id "$AC_API_KEY_ID" \
+            --issuer "$AC_API_ISSUER_ID" || true
+      
+          # Hard fail unless Accepted
+          if [[ "$STATUS" != "Accepted" ]]; then
+            echo "Notarization did not succeed (status=$STATUS). Aborting before staple."
+            exit 1
+          fi
         env:
           AC_API_KEY_ID: ${{ secrets.AC_API_KEY_ID }}
           AC_API_ISSUER_ID: ${{ secrets.AC_API_ISSUER_ID }}
