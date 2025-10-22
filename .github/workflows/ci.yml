@@ -114,7 +114,7 @@ jobs:
 
       # Configure
       - name: Configure (Unix)
-        if: matrix.os == 'macos-latest'
+        if: matrix.os != 'windows-latest'
         run: cmake -S src -B build-Release -G Ninja -DCMAKE_BUILD_TYPE=Release -DCODESIGN_ID="$CODESIGN_ID"
 
       - name: Configure (Windows)
