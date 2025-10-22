@@ -31,9 +31,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    env:
-        CODESIGN_ID: Developer ID Application
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -111,6 +108,7 @@ jobs:
           MAC_CERT_P12: ${{ secrets.MAC_CERT_P12 }}
           MAC_CERT_P12_PASSWORD: ${{ secrets.MAC_CERT_P12_PASSWORD }}
           MAC_KEYCHAIN_PASSWORD: ${{ secrets.MAC_KEYCHAIN_PASSWORD }}
+          CODESIGN_ID: ${{ secrets.CODESIGN_ID }}
 
       # Configure
       - name: Configure (Unix)
