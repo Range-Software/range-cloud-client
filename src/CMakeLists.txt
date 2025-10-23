@@ -103,6 +103,16 @@ add_custom_target(deploy-qt ALL
     VERBATIM
 )
 
+# Explicit sign with Hardened Runtime -----------------------------------------
+if(APPLE)
+    add_custom_target(codesign ALL
+    COMMAND /usr/bin/codesign --force --options runtime --timestamp --sign ${CODESIGN_ID} $<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>
+    DEPENDS deploy-qt
+    COMMENT "Codesign with Hardened Runtime"
+    VERBATIM
+)
+endif()
+
 # Create custom .DS_Store on MacOS --------------------------------------------
 if(APPLE)
     set(APP_DIR_OLD "$<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>")
