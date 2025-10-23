@@ -106,7 +106,7 @@ add_custom_target(deploy-qt ALL
 # Explicit sign with Hardened Runtime -----------------------------------------
 if(APPLE)
     add_custom_target(codesign ALL
-    COMMAND /usr/bin/codesign --force --options runtime --timestamp --sign ${CODESIGN_ID} $<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>
+    COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign ${CODESIGN_ID} $<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>
     DEPENDS deploy-qt
     COMMENT "Codesign with Hardened Runtime"
     VERBATIM
