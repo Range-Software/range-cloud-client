@@ -103,18 +103,8 @@ add_custom_target(deploy-qt ALL
     VERBATIM
 )
 
-# Explicit sign with Hardened Runtime -----------------------------------------
 if(APPLE)
-    add_custom_target(codesign ALL
-    COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign ${CODESIGN_ID} $<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>
-    DEPENDS deploy-qt
-    COMMENT "Codesign with Hardened Runtime"
-    VERBATIM
-)
-endif()
-
-# Create custom .DS_Store on MacOS --------------------------------------------
-if(APPLE)
+    # Create custom .DS_Store on MacOS ----------------------------------------
     set(APP_DIR_OLD "$<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>")
     set(APP_DIR_TMP "${CMAKE_BINARY_DIR}/${PROJECT_TARGET_NAME}/${PROJECT_SHORT_REL_NAME}_tmp.app")
     set(APP_DIR_NEW "${CMAKE_BINARY_DIR}/${PROJECT_TARGET_NAME}/${PROJECT_SHORT_REL_NAME}.app")
@@ -125,7 +115,7 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E rename ${APP_DIR_OLD} ${APP_DIR_TMP}
         COMMAND ${CMAKE_COMMAND} -E rm -rf ${APP_DIR_NEW}
         COMMAND ${CMAKE_COMMAND} -E rename ${APP_DIR_TMP} ${APP_DIR_NEW}
-        DEPENDS codesign
+        DEPENDS deploy-qt
         COMMENT "Renaming ${APP_DIR_OLD} bundle to ${APP_DIR_NEW}"
         VERBATIM
     )
@@ -150,6 +140,14 @@ if(APPLE)
         COMMENT "Generating custom .DS_Store for Drag-and-Drop DMG"
         VERBATIM
     )
+
+    # Explicit sign with Hardened Runtime -------------------------------------
+    add_custom_target(codesign ALL
+    COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign ${CODESIGN_ID} "${APP_DIR_NEW}"
+    DEPENDS gen-dsstore
+    COMMENT "Codesign with Hardened Runtime"
+    VERBATIM
+)
 endif()
 
 # Install ---------------------------------------------------------------------
