@@ -125,7 +125,7 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E rename ${APP_DIR_OLD} ${APP_DIR_TMP}
         COMMAND ${CMAKE_COMMAND} -E rm -rf ${APP_DIR_NEW}
         COMMAND ${CMAKE_COMMAND} -E rename ${APP_DIR_TMP} ${APP_DIR_NEW}
-        DEPENDS deploy-qt
+        DEPENDS codesign
         COMMENT "Renaming ${APP_DIR_OLD} bundle to ${APP_DIR_NEW}"
         VERBATIM
     )
