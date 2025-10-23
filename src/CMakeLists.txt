@@ -142,12 +142,12 @@ if(APPLE)
     )
 
     # Explicit sign with Hardened Runtime -------------------------------------
-    add_custom_target(codesign ALL
-    COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign ${CODESIGN_ID} "${APP_DIR_NEW}"
-    DEPENDS gen-dsstore
-    COMMENT "Codesign with Hardened Runtime"
-    VERBATIM
-)
+        add_custom_target(codesign ALL
+        COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign ${CODESIGN_ID} "${APP_DIR_NEW}"
+        DEPENDS gen-dsstore
+        COMMENT "Codesign with Hardened Runtime"
+        VERBATIM
+    )
 endif()
 
 # Install ---------------------------------------------------------------------

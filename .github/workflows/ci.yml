@@ -39,7 +39,7 @@ jobs:
 
       # Prep
       - name: Prep Linux
-        if: matrix.os == 'ubuntu-latest'
+        if: startsWith(matrix.os, 'ubuntu-')
         run: |
           sudo apt-get update
           sudo apt-get install -y ninja-build
@@ -51,11 +51,11 @@ jobs:
           brew install ninja || true
 
       - name: Set up MSVC (Windows)
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows-')
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Ensure Ninja (Windows)
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows-')
         run: choco install ninja -y || echo "Ninja already present"
         shell: pwsh
 
@@ -79,7 +79,7 @@ jobs:
           qmake -v || true
 
       - name: Show versions (Windows)
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows-')
         run: |
           cmake --version
           qmake -v || Write-Host "qmake not on PATH (ok)"
@@ -96,7 +96,7 @@ jobs:
         env:
           MAC_KEYCHAIN_PASSWORD: ${{ secrets.MAC_KEYCHAIN_PASSWORD }}
 
-      - name: Import Developer ID certificate (MacOS)
+      - name: Import Developer ID certificate (macOS)
         if: startsWith(matrix.os, 'macos-')
         run: |
           base64 -d <<< "$MAC_CERT_P12" > dev.p12
@@ -109,7 +109,7 @@ jobs:
           MAC_CERT_P12_PASSWORD: ${{ secrets.MAC_CERT_P12_PASSWORD }}
           MAC_KEYCHAIN_PASSWORD: ${{ secrets.MAC_KEYCHAIN_PASSWORD }}
 
-      - name: Write App Store Connect API key (MacOS)
+      - name: Write App Store Connect API key (macOS)
         if: startsWith(matrix.os, 'macos-')
         run: |
           set -euo pipefail
@@ -121,14 +121,23 @@ jobs:
           AC_API_KEY_ID: ${{ secrets.AC_API_KEY_ID }}
 
       # Configure
-      - name: Configure (Unix)
-        if: matrix.os != 'windows-latest'
-        run: cmake -S src -B build-Release -G Ninja -DCMAKE_BUILD_TYPE=Release -DCODESIGN_ID="$CODESIGN_ID"
+      - name: Configure (Linux)
+        if: startsWith(matrix.os, 'ubuntu-')
+        run: |
+          cmake -S src -B build-Release -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Configure (macOS)
+        if: startsWith(matrix.os, 'macos-')
+        run: |
+          cmake -S src -B build-Release -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCODESIGN_ID="$CODESIGN_ID"
         env:
           CODESIGN_ID: ${{ secrets.CODESIGN_ID }}
 
       - name: Configure (Windows)
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows-')
         run: cmake -S src -B build-Release -G Ninja -DCMAKE_BUILD_TYPE=Release
         shell: pwsh
 
@@ -138,41 +147,41 @@ jobs:
         run: cmake --build build-Release --target package --parallel
 
       - name: Build (Windows)
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows-')
         run: cmake --build build-Release --target package --parallel
         shell: pwsh
 
       # Notarize
-      - name: Notarize DMG with notarytool (MacOS)
+      - name: Notarize DMG with notarytool (macOS)
         if: startsWith(matrix.os, 'macos-')
         run: |
           set -euo pipefail
           DMG="$(/usr/bin/find build-Release -name '*.dmg' -print -quit)"
           echo "DMG: $DMG"
-      
+
           JSON_OUT="$(mktemp)"
           xcrun notarytool submit "$DMG" \
             --key "$HOME/.private_keys/AuthKey_${AC_API_KEY_ID}.p8" \
             --key-id "$AC_API_KEY_ID" \
             --issuer "$AC_API_ISSUER_ID" \
             --wait --timeout 20m --output-format json > "$JSON_OUT"
-      
+
           echo "Notarytool output:"
           cat "$JSON_OUT"
-      
+
           # Extract submission id and status using plutil (built-in)
           SUBMISSION_ID=$(plutil -extract id raw -o - "$JSON_OUT")
           STATUS=$(plutil -extract status raw -o - "$JSON_OUT" 2>/dev/null || echo "")
-      
+
           echo "Submission ID: $SUBMISSION_ID"
           echo "Status: $STATUS"
-      
+
           # Always fetch and print the full log (super helpful when rejected)
           xcrun notarytool log "$SUBMISSION_ID" \
             --key "$HOME/.private_keys/AuthKey_${AC_API_KEY_ID}.p8" \
             --key-id "$AC_API_KEY_ID" \
             --issuer "$AC_API_ISSUER_ID" || true
-      
+
           # Hard fail unless Accepted
           if [[ "$STATUS" != "Accepted" ]]; then
             echo "Notarization did not succeed (status=$STATUS). Aborting before staple."
