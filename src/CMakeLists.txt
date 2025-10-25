@@ -288,6 +288,48 @@ if(APPLE)
     endif()
 endif()
 
+# -------------------------------------------------------------
+# Linux .desktop + icon install (DEB/RPM) and IFW user install
+# -------------------------------------------------------------
+if(UNIX AND NOT APPLE)
+    # Paths used in desktop files
+    # Executable name follows your DEBUG suffix logic
+    set(EXEC_BASENAME "${IFW_QS_TARGET_FILE_BASE}")  # e.g. fea or fea_debug
+ 
+    # ---- Variant A: for DEB/RPM (absolute paths under CMAKE_INSTALL_PREFIX)
+    set(DESKTOP_ABS "${CMAKE_BINARY_DIR}/${PROJECT_PACKAGE_NAME}.desktop")
+    set(EXEC_PATH_ABS "${CMAKE_INSTALL_PREFIX}/bin/${EXEC_BASENAME}")
+    set(ICON_PATH_ABS "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/256x256/apps/${PROJECT_PACKAGE_NAME}.png")
+ 
+    configure_file(
+        ${CMAKE_SOURCE_DIR}/range-build-tools/app.desktop.in
+        ${DESKTOP_ABS}
+        @ONLY
+    )
+ 
+    # Install desktop + a 256px PNG icon for system packages
+    install(FILES "${DESKTOP_ABS}" DESTINATION share/applications COMPONENT Application)
+    install(FILES "${CMAKE_SOURCE_DIR}/${PROJECT_TARGET_NAME}/pixmaps/${PROJECT_PACKAGE_NAME}.png"
+            DESTINATION share/icons/hicolor/256x256/apps COMPONENT Application)
+ 
+    # ---- Variant B: for IFW (will be copied to ~/.local/share/applications at install-time)
+    # Keep dynamic placeholders that IFW script will replace with the real TargetDir
+    set(DESKTOP_IFW "${CMAKE_BINARY_DIR}/${PROJECT_PACKAGE_NAME}.desktop.ifw")
+    set(EXEC_PATH "@EXEC_PATH@")  # placeholder
+    set(ICON_PATH "@ICON_PATH@")  # placeholder
+    configure_file(
+        ${CMAKE_SOURCE_DIR}/range-build-tools/app.desktop.in
+        ${DESKTOP_IFW}
+        @ONLY
+    )
+ 
+    # Ship the template + icon inside the IFW payload (into app dir)
+    install(FILES "${DESKTOP_IFW}" DESTINATION . COMPONENT Application)
+    install(FILES "${CMAKE_SOURCE_DIR}/${PROJECT_TARGET_NAME}/pixmaps/${PROJECT_PACKAGE_NAME}.png"
+            DESTINATION ${PROJECT_TARGET_NAME}/pixmaps COMPONENT Application)
+endif()
+
+
 # -----------------------------------------------------------------------------
 
 include(CPackIFW)
