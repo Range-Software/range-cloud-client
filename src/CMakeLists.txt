@@ -142,12 +142,14 @@ if(APPLE)
     )
 
     # Explicit sign with Hardened Runtime -------------------------------------
+    if(DEFINED CODESIGN_ID)
         add_custom_target(codesign ALL
-        COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign ${CODESIGN_ID} "${APP_DIR_NEW}"
-        DEPENDS gen-dsstore
-        COMMENT "Codesign with Hardened Runtime"
-        VERBATIM
-    )
+            COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign ${CODESIGN_ID} "${APP_DIR_NEW}"
+            DEPENDS gen-dsstore
+            COMMENT "Codesign with Hardened Runtime"
+            VERBATIM
+        )
+    endif()
 endif()
 
 # Install ---------------------------------------------------------------------
@@ -184,7 +186,12 @@ set(CPACK_PACKAGE_RELEASE "1")
 set(CPACK_PACKAGE_CONTACT "${PROJECT_EMAIL}")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}")
 set(CPACK_PACKAGE_HOMEPAGE_URL "${PROJECT_WWW}")
-set(CPACK_SYSTEM_NAME "${CMAKE_HOST_SYSTEM_NAME}")
+set(_qt_kernel "${CMAKE_SYSTEM_NAME}")
+string(TOLOWER "${_qt_kernel}" _qt_kernel)
+if(_qt_kernel STREQUAL "windows")
+  set(_qt_kernel "winnt")
+endif()
+set(CPACK_SYSTEM_NAME "${_qt_kernel}")
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 
 if(APPLE)
