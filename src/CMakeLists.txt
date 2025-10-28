@@ -165,6 +165,8 @@ elseif(APPLE)
     install(DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_TARGET_NAME}/${PROJECT_SHORT_REL_NAME}.app DESTINATION . USE_SOURCE_PERMISSIONS COMPONENT Application)
 else()
     set(CMAKE_INSTALL_PREFIX "/opt/${PROJECT_FAMILY_NAME}/${PROJECT_SHORT_REL_NAME}" CACHE PATH "Install path prefix" FORCE)
+    set(CPACK_SET_DESTDIR ON)
+    set(CPACK_PACKAGING_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
     install(TARGETS cloud-client DESTINATION bin COMPONENT Application)
     install(DIRECTORY ${PROJECT_TARGET_NAME}/help/ DESTINATION help COMPONENT Application)
@@ -172,6 +174,19 @@ else()
     install(DIRECTORY ${PROJECT_TARGET_NAME}/etc/ DESTINATION etc COMPONENT Application)
     install(DIRECTORY ${_qt_deploy_dir}/ DESTINATION . COMPONENT Application)
     install(FILES ${CMAKE_BINARY_DIR}/LICENSE.txt DESTINATION doc COMPONENT Application)
+    install(FILES ${PROJECT_TARGET_NAME}/pixmaps/${PROJECT_PACKAGE_NAME}.svg DESTINATION pixmaps COMPONENT Application)
+
+    # ---- DEB/RPM
+    set(DESKTOP_ABS "${CMAKE_BINARY_DIR}/desktop/${PROJECT_PACKAGE_NAME}.desktop")
+    set(EXEC_PATH "${CMAKE_INSTALL_PREFIX}/bin/${PROJECT_TARGET_NAME}${DEBUG_EXT}")
+ 
+    configure_file(
+        ${CMAKE_SOURCE_DIR}/range-build-tools/packaging/app.desktop.in
+        ${DESKTOP_ABS}
+        @ONLY
+    )
+
+    install(FILES ${DESKTOP_ABS} DESTINATION desktop COMPONENT Application)
 endif()
 
 # CPack -----------------------------------------------------------------------
@@ -214,7 +229,8 @@ if(WIN32)
 elseif(APPLE)
     set(CPACK_GENERATOR "DragNDrop")
 else()
-    set(CPACK_GENERATOR "IFW;ZIP;TGZ;STGZ;DEB;RPM")
+    set(CPACK_GENERATOR "STGZ;DEB;RPM")
+    #set(CPACK_GENERATOR "IFW;ZIP;TGZ;STGZ;DEB;RPM")
 endif()
 
 # DEB
@@ -225,6 +241,43 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
 set(CPACK_RPM_PACKAGE_LICENSE "GPLv3")
 set(CPACK_RPM_PACKAGE_GROUP "Applications/Internet")
 #set(CPACK_RPM_PACKAGE_REQUIRES "glibc >= 2.27")
+
+# Generate scripts from templates (so you can @ONLY-substitute project vars)
+configure_file(${CMAKE_SOURCE_DIR}/range-build-tools/packaging/debian/postinst.in
+               ${CMAKE_BINARY_DIR}/packaging/debian/postinst
+               @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/range-build-tools/packaging/debian/prerm.in
+               ${CMAKE_BINARY_DIR}/packaging/debian/prerm
+               @ONLY)
+
+# Debian control scripts MUST be executable
+file(CHMOD ${CMAKE_BINARY_DIR}/packaging/debian/postinst PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ WORLD_READ)
+file(CHMOD ${CMAKE_BINARY_DIR}/packaging/debian/prerm    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ WORLD_READ)
+
+# Tell CPack-DEB to include them
+# (generic for whole package)
+set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_BINARY_DIR}/packaging/debian/postinst;${CMAKE_BINARY_DIR}/packaging/debian/prerm")
+
+# If you package by component, use the component-scoped var instead:
+# set(CPACK_DEBIAN_APPLICATION_PACKAGE_CONTROL_EXTRA
+#     "${CMAKE_BINARY_DIR}/packaging/debian/postinst;${CMAKE_BINARY_DIR}/packaging/debian/prerm")
+
+
+# RPM scripts (don’t need +x; CPack embeds their contents)
+configure_file(${CMAKE_SOURCE_DIR}/range-build-tools/packaging/rpm/post.in
+               ${CMAKE_BINARY_DIR}/packaging/rpm/post
+               @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/range-build-tools/packaging/rpm/preun.in
+               ${CMAKE_BINARY_DIR}/packaging/rpm/preun
+               @ONLY)
+
+# Tell CPack-RPM where they are
+set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE "${CMAKE_BINARY_DIR}/packaging/rpm/post")
+set(CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE "${CMAKE_BINARY_DIR}/packaging/rpm/preun")
+
+# If packaging by component "Application", use component-scoped variants:
+# set(CPACK_RPM_APPLICATION_POST_INSTALL_SCRIPT_FILE  "${CMAKE_BINARY_DIR}/packaging/rpm/post")
+# set(CPACK_RPM_APPLICATION_PRE_UNINSTALL_SCRIPT_FILE "${CMAKE_BINARY_DIR}/packaging/rpm/preun")
 
 # DMG
 if(APPLE)
@@ -287,48 +340,6 @@ if(APPLE)
         message(FATAL_ERROR "Failed to generate LICENSE.rtf")
     endif()
 endif()
-
-# -------------------------------------------------------------
-# Linux .desktop + icon install (DEB/RPM) and IFW user install
-# -------------------------------------------------------------
-if(UNIX AND NOT APPLE)
-    # Paths used in desktop files
-    # Executable name follows your DEBUG suffix logic
-    set(EXEC_BASENAME "${IFW_QS_TARGET_FILE_BASE}")  # e.g. fea or fea_debug
- 
-    # ---- DEB/RPM (absolute paths under CMAKE_INSTALL_PREFIX)
-    set(DESKTOP_ABS "${CMAKE_BINARY_DIR}/${PROJECT_PACKAGE_NAME}.desktop")
-    set(EXEC_PATH "${CMAKE_INSTALL_PREFIX}/bin/${EXEC_BASENAME}")
-    set(ICON_PATH "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/256x256/apps/${PROJECT_PACKAGE_NAME}.png")
- 
-    configure_file(
-        ${CMAKE_SOURCE_DIR}/range-build-tools/app.desktop.in
-        ${DESKTOP_ABS}
-        @ONLY
-    )
- 
-    # Install desktop + a 256px PNG icon for system packages
-    install(FILES "${DESKTOP_ABS}" DESTINATION share/applications COMPONENT Application)
-    install(FILES "${CMAKE_SOURCE_DIR}/${PROJECT_TARGET_NAME}/pixmaps/${PROJECT_PACKAGE_NAME}.png"
-            DESTINATION share/icons/hicolor/256x256/apps COMPONENT Application)
- 
-    # ---- IFW (will be copied to ~/.local/share/applications at install-time)
-    # Keep dynamic placeholders that IFW script will replace with the real TargetDir
-    set(DESKTOP_IFW "${CMAKE_BINARY_DIR}/${PROJECT_PACKAGE_NAME}.desktop.ifw")
-    set(EXEC_PATH "@EXEC_PATH@")  # placeholder
-    set(ICON_PATH "@ICON_PATH@")  # placeholder
-    configure_file(
-        ${CMAKE_SOURCE_DIR}/range-build-tools/app.desktop.in
-        ${DESKTOP_IFW}
-        @ONLY
-    )
- 
-    # Ship the template + icon inside the IFW payload (into app dir)
-    install(FILES "${DESKTOP_IFW}" DESTINATION . COMPONENT Application)
-    install(FILES "${CMAKE_SOURCE_DIR}/${PROJECT_TARGET_NAME}/pixmaps/${PROJECT_PACKAGE_NAME}.png"
-            DESTINATION ${PROJECT_TARGET_NAME}/pixmaps COMPONENT Application)
-endif()
-
 
 # -----------------------------------------------------------------------------
 
