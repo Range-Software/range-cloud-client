@@ -130,6 +130,7 @@ qt_add_resources(cloud-client icons-cloud
         pixmaps/range-refresh.svg
         pixmaps/range-remove.svg
         pixmaps/range-upload.svg
+        pixmaps/range-upload_replace.svg
         pixmaps/range-upload_update.svg
 )
 
