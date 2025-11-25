@@ -1,3 +1,6 @@
+find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+
 qt_add_executable(cloud-client
     src/action.cpp
     src/application.cpp
@@ -5,6 +8,7 @@ qt_add_executable(cloud-client
     src/cloud_actions_tree.cpp
     src/cloud_auth_token_manager_dialog.cpp
     src/cloud_auth_token_manager_widget.cpp
+    src/cloud_file_quota_dialog.cpp
     src/cloud_group_add_dialog.cpp
     src/cloud_groups_tree.cpp
     src/cloud_processes_tree.cpp
@@ -27,6 +31,7 @@ qt_add_executable(cloud-client
     src/cloud_actions_tree.h
     src/cloud_auth_token_manager_dialog.h
     src/cloud_auth_token_manager_widget.h
+    src/cloud_file_quota_dialog.h
     src/cloud_group_add_dialog.h
     src/cloud_groups_tree.h
     src/cloud_processes_tree.h
@@ -50,6 +55,8 @@ target_link_libraries(cloud-client
         range-gui-lib
         common_defines
 )
+target_link_libraries(cloud-client PRIVATE Qt6::Core)
+target_link_libraries(cloud-client PRIVATE Qt6::Widgets)
 
 set_target_properties(cloud-client
     PROPERTIES

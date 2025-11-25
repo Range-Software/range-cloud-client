@@ -9,6 +9,7 @@
 
 #include "application.h"
 #include "cloud_auth_token_manager_dialog.h"
+#include "cloud_file_quota_dialog.h"
 #include "cloud_user_add_dialog.h"
 #include "cloud_user_groups_dialog.h"
 #include "cloud_users_tree.h"
@@ -59,6 +60,9 @@ CloudUsersTree::CloudUsersTree(QWidget *parent)
     QAction *editGroupsAction = new QAction(tr("Edit groups"));
     editMenu->addAction(editGroupsAction);
 
+    QAction *editFileQuotasAction = new QAction(tr("Edit file quotas"));
+    editMenu->addAction(editFileQuotasAction);
+
     QAction *editTokensAction = new QAction(tr("Edit tokens"));
     editMenu->addAction(editTokensAction);
 
@@ -88,6 +92,7 @@ CloudUsersTree::CloudUsersTree(QWidget *parent)
     QObject::connect(this->refreshButton,&QPushButton::clicked,this,&CloudUsersTree::onRefreshButtonClicked);
 
     QObject::connect(editGroupsAction,&QAction::triggered,this,&CloudUsersTree::onEditGroupsButtonTriggered);
+    QObject::connect(editFileQuotasAction,&QAction::triggered,this,&CloudUsersTree::onEditFileQuotasButtonTriggered);
     QObject::connect(editTokensAction,&QAction::triggered,this,&CloudUsersTree::onEditTokensButtonTriggered);
 
     const RApplicationSettings *applicationSettings = qobject_cast<Application*>(Application::instance())->getApplicationSettings();
@@ -134,15 +139,21 @@ void CloudUsersTree::updateTreeItem(QTreeWidgetItem *listItem, const RUserInfo &
 {
     listItem->setText(ColumnName,userInfo.getName());
     listItem->setText(ColumnGroups,userInfo.getGroupNames().join(','));
+    listItem->setData(ColumnStoreSizeQuota,Qt::DisplayRole,userInfo.getFileQuota().getStoreSize());
+    listItem->setData(ColumnFileSizeQuota,Qt::DisplayRole,userInfo.getFileQuota().getFileSize());
+    listItem->setData(ColumnFileCountQuota,Qt::DisplayRole,userInfo.getFileQuota().getFileCount());
 }
 
 QString CloudUsersTree::getColumnName(ColumnType columnType)
 {
     switch (columnType)
     {
-        case ColumnName:   return tr("Name");
-        case ColumnGroups: return tr("Groups");
-        default:           return QString();
+        case ColumnName:           return tr("Name");
+        case ColumnGroups:         return tr("Groups");
+        case ColumnStoreSizeQuota: return tr("Store size");
+        case ColumnFileSizeQuota:  return tr("File size");
+        case ColumnFileCountQuota: return tr("File count");
+        default:                   return QString();
     }
 }
 
@@ -266,6 +277,11 @@ void CloudUsersTree::onEditGroupsButtonTriggered()
         RUserInfo userInfo;
         userInfo.setName(selectedItem->text(ColumnName));
         userInfo.setGroupNames(selectedItem->text(ColumnGroups).split(','));
+        RFileQuota fileQuota;
+        fileQuota.setStoreSize(selectedItem->data(ColumnStoreSizeQuota,Qt::DisplayRole).toLongLong());
+        fileQuota.setFileSize(selectedItem->data(ColumnFileSizeQuota,Qt::DisplayRole).toLongLong());
+        fileQuota.setFileCount(selectedItem->data(ColumnFileCountQuota,Qt::DisplayRole).toLongLong());
+        userInfo.setFileQuota(fileQuota);
 
         CloudUserGroupsDialog userGroupsDialog(userInfo,this->groupInfoList,this);
 
@@ -274,6 +290,38 @@ void CloudUsersTree::onEditGroupsButtonTriggered()
             try
             {
                 RUserInfo userInfo = userGroupsDialog.getUserInfo();
+                this->cloudClient->requestUserUpdate(userInfo.getName(),userInfo);
+            }
+            catch (const RError &rError)
+            {
+                RLogger::error("Failed to request to update user on Cloud. %s\n",rError.getMessage().toUtf8().constData());
+                RMessageBox::critical(this,tr("Updating user failed"),tr("Updating user on Cloud has failed."));
+            }
+        }
+    }
+}
+
+void CloudUsersTree::onEditFileQuotasButtonTriggered()
+{
+    QList<QTreeWidgetItem*> selectedItems = this->usersTree->selectedItems();
+    for (QTreeWidgetItem *selectedItem : std::as_const(selectedItems))
+    {
+        RUserInfo userInfo;
+        userInfo.setName(selectedItem->text(ColumnName));
+        userInfo.setGroupNames(selectedItem->text(ColumnGroups).split(','));
+        RFileQuota fileQuota;
+        fileQuota.setStoreSize(selectedItem->data(ColumnStoreSizeQuota,Qt::DisplayRole).toLongLong());
+        fileQuota.setFileSize(selectedItem->data(ColumnFileSizeQuota,Qt::DisplayRole).toLongLong());
+        fileQuota.setFileCount(selectedItem->data(ColumnFileCountQuota,Qt::DisplayRole).toLongLong());
+        userInfo.setFileQuota(fileQuota);
+
+        CloudFileQuotaDialog dialog(fileQuota,this);
+
+        if (dialog.exec() == RMessageBox::Accepted)
+        {
+            try
+            {
+                userInfo.setFileQuota(dialog.getFileQuota());
                 this->cloudClient->requestUserUpdate(userInfo.getName(),userInfo);
             }
             catch (const RError &rError)

@@ -16,6 +16,9 @@ class CloudUsersTree : public QWidget
         {
             ColumnName = 0,
             ColumnGroups,
+            ColumnStoreSizeQuota,
+            ColumnFileSizeQuota,
+            ColumnFileCountQuota,
             NunberOfColumns
         };
 
@@ -88,6 +91,9 @@ class CloudUsersTree : public QWidget
 
         //! Edit groups triggered.
         void onEditGroupsButtonTriggered();
+
+        //! Edit file quotas triggered.
+        void onEditFileQuotasButtonTriggered();
 
         //! Edit tokens triggered.
         void onEditTokensButtonTriggered();
