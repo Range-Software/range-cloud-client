@@ -1,0 +1,4 @@
+# O aplikácii
+
+O aplikácii
+

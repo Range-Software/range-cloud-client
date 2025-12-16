@@ -1,0 +1,4 @@
+# Správca relácií
+
+Správca relácií
+

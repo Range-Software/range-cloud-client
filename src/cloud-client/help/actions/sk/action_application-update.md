@@ -1,0 +1,4 @@
+# Overiť aktualizáciu
+
+Overiť aktualizáciu
+

@@ -1,0 +1,4 @@
+# Nastavenia aplikácie
+
+Nastavenia aplikácie
+

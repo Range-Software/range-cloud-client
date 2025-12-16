@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21)
 project(RangeCloudClient)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -18,7 +18,7 @@ endif()
 
 set(BUILD_SHARED_LIBS OFF)
 
-find_package(Qt6 6.8 REQUIRED COMPONENTS Core Concurrent HttpServer Network Widgets LinguistTools)
+find_package(Qt6 6.10 REQUIRED COMPONENTS Core Concurrent HttpServer Network Widgets LinguistTools)
 qt_standard_project_setup()
 
 add_library(common_defines INTERFACE)
@@ -62,6 +62,14 @@ foreach(tgt IN LISTS all_targets)
     set_debug_suffix_if_needed(${tgt})
 endforeach()
 
+# Define OpenSSL ROOT directory -----------------------------------------------
+
+set(OPENSSL_ROOT "" CACHE PATH "OpenSSL prefix")
+
+if(OPENSSL_ROOT STREQUAL "" AND DEFINED ENV{OPENSSL_ROOT})
+  set(OPENSSL_ROOT "$ENV{OPENSSL_ROOT}" CACHE PATH "OpenSSL prefix" FORCE)
+endif()
+
 # Deploy Qt -------------------------------------------------------------------
 
 get_target_property(_qmake_executable Qt6::qmake IMPORTED_LOCATION)
@@ -75,6 +83,7 @@ if(WIN32)
         ${WINDEPLOYQT_EXECUTABLE}
         $<TARGET_FILE:${PROJECT_TARGET_NAME}>
         --dir ${_qt_deploy_dir}
+        --force-openssl
     )
 elseif(APPLE)
     find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_qt_bin_dir}")
@@ -82,9 +91,6 @@ elseif(APPLE)
         ${MACDEPLOYQT_EXECUTABLE}
         $<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>
     )
-    if(DEFINED CODESIGN_ID)
-        set(DEPLOY_COMMAND ${DEPLOY_COMMAND} -codesign=${CODESIGN_ID})
-    endif()
 else()
     get_filename_component(_qt_dir "${_qt_bin_dir}" DIRECTORY)
     set(DEPLOY_COMMAND
@@ -141,6 +147,21 @@ if(APPLE)
         VERBATIM
     )
 
+    # Put openssl tool into Contents/MacOS on macOS ---------------------------
+    if (OPENSSL_ROOT)
+        # This copies the already-built openssl tool next to the main executable inside the bundle
+        add_custom_target(embed-openssl-tool ALL
+            COMMAND ${CMAKE_COMMAND} -E copy ${OPENSSL_ROOT}/bin/openssl ${APP_DIR_NEW}/Contents/MacOS/
+            COMMAND ${CMAKE_COMMAND} -E copy ${OPENSSL_ROOT}/lib/libcrypto.3.dylib ${APP_DIR_NEW}/Contents/Frameworks/
+            COMMAND ${CMAKE_COMMAND} -E copy ${OPENSSL_ROOT}/lib/libssl.3.dylib ${APP_DIR_NEW}/Contents/Frameworks/
+            DEPENDS app-rename
+            COMMENT "Embedding openssl-tool"
+            VERBATIM
+        )
+
+        add_dependencies(gen-dsstore embed-openssl-tool)
+    endif()
+
     # Explicit sign with Hardened Runtime -------------------------------------
     if(DEFINED CODESIGN_ID)
         add_custom_target(codesign ALL
@@ -161,6 +182,11 @@ if(WIN32)
     install(DIRECTORY ${PROJECT_TARGET_NAME}/etc/ DESTINATION etc COMPONENT Application)
     install(DIRECTORY ${_qt_deploy_dir}/ DESTINATION bin COMPONENT Application)
     install(FILES ${CMAKE_BINARY_DIR}/LICENSE.txt DESTINATION doc COMPONENT Application)
+    if(OPENSSL_ROOT)
+        install(FILES ${OPENSSL_ROOT}/bin/openssl.exe DESTINATION bin COMPONENT Application)
+        install(FILES ${OPENSSL_ROOT}/bin/libcrypto-3-x64.dll DESTINATION bin COMPONENT Application)
+        install(FILES ${OPENSSL_ROOT}/bin/libssl-3-x64.dll DESTINATION bin COMPONENT Application)
+    endif()
 elseif(APPLE)
     install(DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_TARGET_NAME}/${PROJECT_SHORT_REL_NAME}.app DESTINATION . USE_SOURCE_PERMISSIONS COMPONENT Application)
 else()
@@ -235,11 +261,13 @@ endif()
 
 # DEB
 set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "openssl, ca-certificates")
 #set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.27)")
 
 # RPM
 set(CPACK_RPM_PACKAGE_LICENSE "GPLv3")
 set(CPACK_RPM_PACKAGE_GROUP "Applications/Internet")
+set(CPACK_RPM_PACKAGE_REQUIRES "openssl, ca-certificates")
 #set(CPACK_RPM_PACKAGE_REQUIRES "glibc >= 2.27")
 
 # Generate scripts from templates (so you can @ONLY-substitute project vars)

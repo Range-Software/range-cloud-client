@@ -1,9 +1,9 @@
 {
-    "main": "index.html",
+    "main": "index.md",
     "chapters": [
         {
             "title": "Cloud client",
-            "file": "cloud_client.html"
+            "file": "cloud_client.md"
         }
     ]
 }
