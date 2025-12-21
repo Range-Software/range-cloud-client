@@ -85,31 +85,14 @@ if(WIN32)
         --dir ${_qt_deploy_dir}
         --force-openssl
     )
+
+    add_custom_target(deploy-qt ALL
+        COMMAND ${DEPLOY_COMMAND}
+        DEPENDS cloud-client
+        COMMENT "Deploying Windows QT libraries"
+        VERBATIM
+    )
 elseif(APPLE)
-    find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_qt_bin_dir}")
-    set(DEPLOY_COMMAND
-        ${MACDEPLOYQT_EXECUTABLE}
-        $<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>
-    )
-else()
-    get_filename_component(_qt_dir "${_qt_bin_dir}" DIRECTORY)
-    set(DEPLOY_COMMAND
-        ${CMAKE_SOURCE_DIR}/range-build-tools/linux_deploy_qt.sh
-        --executable=$<TARGET_FILE:${PROJECT_TARGET_NAME}>
-        --install-to=${_qt_deploy_dir}
-        --only-qt
-        --qt-path=${_qt_dir}
-    )
-endif()
-
-add_custom_target(deploy-qt ALL
-    COMMAND ${DEPLOY_COMMAND}
-    DEPENDS cloud-client
-    COMMENT "Deploying QT libraries"
-    VERBATIM
-)
-
-if(APPLE)
     # Create custom .DS_Store on MacOS ----------------------------------------
     set(APP_DIR_OLD "$<TARGET_BUNDLE_DIR:${PROJECT_TARGET_NAME}>")
     set(APP_DIR_TMP "${CMAKE_BINARY_DIR}/${PROJECT_TARGET_NAME}/${PROJECT_SHORT_REL_NAME}_tmp.app")
@@ -121,8 +104,21 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E rename ${APP_DIR_OLD} ${APP_DIR_TMP}
         COMMAND ${CMAKE_COMMAND} -E rm -rf ${APP_DIR_NEW}
         COMMAND ${CMAKE_COMMAND} -E rename ${APP_DIR_TMP} ${APP_DIR_NEW}
-        DEPENDS deploy-qt
+        DEPENDS cloud-client
         COMMENT "Renaming ${APP_DIR_OLD} bundle to ${APP_DIR_NEW}"
+        VERBATIM
+    )
+
+    find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_qt_bin_dir}")
+    set(DEPLOY_COMMAND
+        ${MACDEPLOYQT_EXECUTABLE}
+        ${APP_DIR_NEW}
+    )
+
+    add_custom_target(deploy-qt ALL
+        COMMAND ${DEPLOY_COMMAND}
+        DEPENDS app-rename
+        COMMENT "Deploying Windows QT libraries"
         VERBATIM
     )
 
@@ -165,12 +161,30 @@ if(APPLE)
     # Explicit sign with Hardened Runtime -------------------------------------
     if(DEFINED CODESIGN_ID)
         add_custom_target(codesign ALL
-            COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign ${CODESIGN_ID} "${APP_DIR_NEW}"
+            COMMAND /bin/echo "Signing with: ${CODESIGN_ID}"
+            COMMAND /bin/chmod -R u+w "${APP_DIR_NEW}"
+            COMMAND /usr/bin/codesign -vvv --deep --strict --force --options runtime --timestamp --sign "${CODESIGN_ID}" "${APP_DIR_NEW}"
             DEPENDS gen-dsstore
-            COMMENT "Codesign with Hardened Runtime"
+            COMMENT "Codesign"
             VERBATIM
         )
     endif()
+else()
+    get_filename_component(_qt_dir "${_qt_bin_dir}" DIRECTORY)
+    set(DEPLOY_COMMAND
+        ${CMAKE_SOURCE_DIR}/range-build-tools/linux_deploy_qt.sh
+        --executable=$<TARGET_FILE:${PROJECT_TARGET_NAME}>
+        --install-to=${_qt_deploy_dir}
+        --only-qt
+        --qt-path=${_qt_dir}
+    )
+
+    add_custom_target(deploy-qt ALL
+        COMMAND ${DEPLOY_COMMAND}
+        DEPENDS cloud-client
+        COMMENT "Deploying Windows QT libraries"
+        VERBATIM
+    )
 endif()
 
 # Install ---------------------------------------------------------------------
