@@ -1,8 +1,19 @@
 ------------------------------------------------------------------
+Version 1.0.4
+
+Bug fixes:
+
+- Fix SSL error on macOS by seeding system CA certificates
+
+------------------------------------------------------------------
 Version 1.0.3
 
 - Automatic client certificate renewal
 - Show warning when client certificate is about to expire
+
+Bug fixes:
+
+- Fix SSL error on macOS by seeding system CA certificates
 
 ------------------------------------------------------------------
 Version 1.0.2
