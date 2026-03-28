@@ -97,6 +97,9 @@ jobs:
           aqtversion: '==3.3.*'
           modules: 'qthttpserver qtwebsockets qtimageformats'
           tools: 'tools_ifw'
+          use-official: true
+          email: ${{ secrets.QT_EMAIL }}
+          pw: ${{ secrets.QT_PW }}
 
       - name: Show versions (Unix)
         if: matrix.os != 'windows-latest'
