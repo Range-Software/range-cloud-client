@@ -86,7 +86,7 @@ jobs:
         shell: pwsh
 
       # Qt
-      - name: Install Qt 6.11.0 + QtIFW
+      - name: Install Qt 6.10.2 + QtIFW
         uses: jurplel/install-qt-action@v4
         with:
           version: '6.10.2'
