@@ -55,7 +55,7 @@ function(set_debug_suffix_if_needed target_name)
     endif()
 endfunction()
 
-set(all_targets range-base-lib range-cloud-lib range-gui-lib cloud-client)
+set(all_targets range-base-lib range-cloud-lib range-ai-lib range-gui-lib cloud-client)
 
 foreach(tgt IN LISTS all_targets)
     add_subdirectory(${tgt})
