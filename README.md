@@ -4,7 +4,7 @@ Range Cloud client application
 ## Prepare build environment
 Initialize all submodules
 ```
-git submodule init && git submodule update --remote
+git submodule update --init --recursive
 ```
 Following command will attempt to download and install all required packages, therefore it must be executed under priviledged (root) user
 ```
@@ -26,32 +26,20 @@ cmake --build build-Release --target package
 ### MacOS
 #### Drag & Drop
 ```
-open './build-Release/range-cloud-client-0.0.1-Darwin.dmg'
-```
-#### GUI Installer
-```
-./build-Release/range-cloud-client-0.0.1-Darwin.run
-```
-#### Self extracting Tar GZip
-```
-./build-Release/range-cloud-client-0.0.1-Darwin.sh
+open './build-Release/range-cloud-client-1.0.5-darwin-arm64.dmg'
 ```
 ### Linux
-#### GUI Installer
-```
-./build-Release/range-cloud-client-0.0.1-Linux.run
-```
 #### Self extracting Tar GZip
 ```
-./build-Release/range-cloud-client-0.0.1-Linux.sh
+./build-Release/range-cloud-client-1.0.5-linux-x86_64.sh
 ```
 #### Debian DEB package
 ```
-sudo apt install ./build-Release/range-cloud-client-0.0.1-Linux.deb
+sudo apt install ./build-Release/range-cloud-client-1.0.5-linux-x86_64.deb
 ```
 #### RedHat RPM package
 ```
-sudo dnf install ./build-Release/range-cloud-client-0.0.1-Linux.rpm
+sudo dnf install ./build-Release/range-cloud-client-1.0.5-linux-x86_64.rpm
 ```
 
 ## Download
