@@ -1,5 +1,7 @@
 ## Version 1.0.5
 
+### Improvements
+
 - Release notes displayed in a dedicated dialog with markdown rendering
 
 ---

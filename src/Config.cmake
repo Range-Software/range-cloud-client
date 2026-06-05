@@ -1,6 +1,6 @@
 set(PROJECT_VERSION "1.0.5")
 set(PROJECT_YEAR "2026")
-set(PROJECT_RELEASE_DATE "2026-03-28")
+set(PROJECT_RELEASE_DATE "2026-06-06")
 set(PROJECT_PACKAGE_NAME "range-cloud-client")
 set(PROJECT_TARGET_NAME "cloud-client")
 set(PROJECT_HUMAN_NAME "Range Cloud Client")
