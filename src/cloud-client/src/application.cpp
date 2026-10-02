@@ -16,6 +16,15 @@ Application *Application::instance() noexcept
     return qobject_cast<Application*>(RApplication::instance());
 }
 
+QString Application::windowIconFile()
+{
+#ifdef Q_OS_WIN
+    return QString(":/icons/logos/pixmaps/range-cloud-client-windows.svg");
+#else
+    return QString(":/icons/logos/pixmaps/range-cloud-client.svg");
+#endif
+}
+
 void Application::initialize()
 {
     // Initialize action list

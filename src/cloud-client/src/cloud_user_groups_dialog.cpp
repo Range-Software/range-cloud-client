@@ -5,14 +5,16 @@
 
 #include <rcl_user_info.h>
 
+#include <rgl_icon.h>
+
 #include "cloud_user_groups_dialog.h"
 
 CloudUserGroupsDialog::CloudUserGroupsDialog(const RUserInfo &userInfo, const QList<RGroupInfo> &groupInfoList, QWidget *parent)
     : QDialog{parent}
     , userInfo{userInfo}
 {
-    QIcon cancelIcon(":/icons/action/pixmaps/range-cancel.svg");
-    QIcon okIcon(":/icons/action/pixmaps/range-add.svg");
+    QIcon cancelIcon = RIcon::fromFile(":/icons/action/pixmaps/range-cancel.svg");
+    QIcon okIcon = RIcon::fromFile(":/icons/action/pixmaps/range-add.svg");
 
     this->setWindowTitle(tr("Set user groups"));
 

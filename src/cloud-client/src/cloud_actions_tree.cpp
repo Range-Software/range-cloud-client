@@ -6,6 +6,7 @@
 
 #include <rgl_access_owner_dialog.h>
 #include <rgl_access_mode_dialog.h>
+#include <rgl_icon.h>
 #include <rgl_message_box.h>
 
 #include "application.h"
@@ -17,8 +18,8 @@ CloudActionsTree::CloudActionsTree(QWidget *parent)
     this->cloudClient = qobject_cast<Application*>(Application::instance())->getCloudConnectionHandler()->createPrivateClient(this);
     this->cloudClient->setBlocking(false);
 
-    QIcon editIcon(":/icons/cloud/pixmaps/range-edit.svg");
-    QIcon refreshIcon(":/icons/cloud/pixmaps/range-refresh.svg");
+    QIcon editIcon = RIcon::fromFile(":/icons/cloud/pixmaps/range-edit.svg");
+    QIcon refreshIcon = RIcon::fromFile(":/icons/cloud/pixmaps/range-refresh.svg");
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->setContentsMargins(0,0,0,0);

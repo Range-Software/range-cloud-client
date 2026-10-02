@@ -4,6 +4,7 @@
 
 #include <rbl_logger.h>
 
+#include <rgl_icon.h>
 #include <rgl_message_box.h>
 
 #include "application.h"
@@ -16,9 +17,9 @@ CloudGroupsTree::CloudGroupsTree(QWidget *parent)
     this->cloudClient = qobject_cast<Application*>(Application::instance())->getCloudConnectionHandler()->createPrivateClient(this);
     this->cloudClient->setBlocking(false);
 
-    QIcon addIcon(":/icons/cloud/pixmaps/range-add.svg");
-    QIcon removeIcon(":/icons/cloud/pixmaps/range-remove.svg");
-    QIcon refreshIcon(":/icons/cloud/pixmaps/range-refresh.svg");
+    QIcon addIcon = RIcon::fromFile(":/icons/cloud/pixmaps/range-add.svg");
+    QIcon removeIcon = RIcon::fromFile(":/icons/cloud/pixmaps/range-remove.svg");
+    QIcon refreshIcon = RIcon::fromFile(":/icons/cloud/pixmaps/range-refresh.svg");
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->setContentsMargins(0,0,0,0);

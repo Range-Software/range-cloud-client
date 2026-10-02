@@ -86,9 +86,23 @@ elseif (APPLE)
     )
 endif()
 
-qt_add_resources(cloud-client icons-application
-    PREFIX "/icons/application"
-    FILES
+# Adds icon resources under given prefix together with their dark color scheme
+# variants from pixmaps/dark (loaded at runtime through RIcon::fromFile).
+function(cloud_client_add_icon_resources name prefix)
+    set(files ${ARGN})
+    foreach(file IN LISTS ARGN)
+        get_filename_component(fileName ${file} NAME)
+        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pixmaps/dark/${fileName}")
+            list(APPEND files pixmaps/dark/${fileName})
+        endif()
+    endforeach()
+    qt_add_resources(cloud-client ${name}
+        PREFIX ${prefix}
+        FILES ${files}
+    )
+endfunction()
+
+cloud_client_add_icon_resources(icons-application "/icons/application"
         pixmaps/range-about.svg
         pixmaps/range-help.svg
         pixmaps/range-license.svg
@@ -99,9 +113,7 @@ qt_add_resources(cloud-client icons-application
         pixmaps/range-update.svg
 )
 
-qt_add_resources(cloud-client icons-action
-    PREFIX "/icons/action"
-    FILES
+cloud_client_add_icon_resources(icons-action "/icons/action"
         pixmaps/range-add.svg
         pixmaps/range-cancel.svg
         pixmaps/range-clear.svg
@@ -111,24 +123,19 @@ qt_add_resources(cloud-client icons-action
         pixmaps/range-undo.svg
 )
 
-qt_add_resources(cloud-client icons-logos
-    PREFIX "/icons/logos"
-    FILES
+cloud_client_add_icon_resources(icons-logos "/icons/logos"
         pixmaps/range-app.svg
         pixmaps/range-cloud-client.svg
+        pixmaps/range-cloud-client-windows.svg
 )
 
-qt_add_resources(cloud-client icons-file
-    PREFIX "/icons/file"
-    FILES
+cloud_client_add_icon_resources(icons-file "/icons/file"
         pixmaps/range-new.svg
         pixmaps/range-open.svg
         pixmaps/range-save.svg
 )
 
-qt_add_resources(cloud-client icons-cloud
-    PREFIX "/icons/cloud"
-    FILES
+cloud_client_add_icon_resources(icons-cloud "/icons/cloud"
         pixmaps/range-access_rights.svg
         pixmaps/range-add.svg
         pixmaps/range-download.svg
@@ -141,9 +148,7 @@ qt_add_resources(cloud-client icons-cloud
         pixmaps/range-upload_update.svg
 )
 
-qt_add_resources(cloud-client icons-session
-    PREFIX "/icons/session"
-    FILES
+cloud_client_add_icon_resources(icons-session "/icons/session"
         pixmaps/range-session_manager.svg
         pixmaps/range-statistics.svg
 )

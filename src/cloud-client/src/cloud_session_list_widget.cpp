@@ -1,6 +1,7 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 
+#include <rgl_icon.h>
 #include <rgl_message_box.h>
 
 #include "cloud_session_list_widget.h"
@@ -9,9 +10,9 @@ CloudSessionListWidget::CloudSessionListWidget(RCloudSessionManager *cloudSessio
     : QWidget{parent}
     , cloudSession{cloudSession}
 {
-    QIcon activateIcon(":/icons/action/pixmaps/range-ok.svg");
-    QIcon addIcon(":/icons/action/pixmaps/range-add.svg");
-    QIcon removeIcon(":/icons/action/pixmaps/range-remove.svg");
+    QIcon activateIcon = RIcon::fromFile(":/icons/action/pixmaps/range-ok.svg");
+    QIcon addIcon = RIcon::fromFile(":/icons/action/pixmaps/range-add.svg");
+    QIcon removeIcon = RIcon::fromFile(":/icons/action/pixmaps/range-remove.svg");
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     this->setLayout(mainLayout);

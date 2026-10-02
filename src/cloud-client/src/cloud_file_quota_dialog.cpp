@@ -4,14 +4,16 @@
 #include <QPushButton>
 #include <QDialogButtonBox>
 
+#include <rgl_icon.h>
+
 #include "cloud_file_quota_dialog.h"
 
 CloudFileQuotaDialog::CloudFileQuotaDialog(const RFileQuota &fileQuota, QWidget *parent)
     : QDialog{parent}
     , fileQuota{fileQuota}
 {
-    QIcon cancelIcon(":/icons/action/pixmaps/range-cancel.svg");
-    QIcon okIcon(":/icons/action/pixmaps/range-ok.svg");
+    QIcon cancelIcon = RIcon::fromFile(":/icons/action/pixmaps/range-cancel.svg");
+    QIcon okIcon = RIcon::fromFile(":/icons/action/pixmaps/range-ok.svg");
 
     this->setWindowTitle(tr("Edit file quotas"));
 

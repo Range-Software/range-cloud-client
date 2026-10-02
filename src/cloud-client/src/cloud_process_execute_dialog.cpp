@@ -5,6 +5,8 @@
 #include <QLineEdit>
 #include <QDialogButtonBox>
 
+#include <rgl_icon.h>
+
 #include "cloud_process_execute_dialog.h"
 
 CloudProcessArgumentLineEdit::CloudProcessArgumentLineEdit(const QString &placeholder, QWidget *parent)
@@ -24,8 +26,8 @@ CloudProcessExecuteDialog::CloudProcessExecuteDialog(const RCloudProcessInfo &pr
     : QDialog{parent}
     , processInfo{processInfo}
 {
-    QIcon cancelIcon(":/icons/action/pixmaps/range-cancel.svg");
-    QIcon executeIcon(":/icons/cloud/pixmaps/range-execute.svg");
+    QIcon cancelIcon = RIcon::fromFile(":/icons/action/pixmaps/range-cancel.svg");
+    QIcon executeIcon = RIcon::fromFile(":/icons/cloud/pixmaps/range-execute.svg");
 
     this->setWindowTitle(tr("Execute process"));
 

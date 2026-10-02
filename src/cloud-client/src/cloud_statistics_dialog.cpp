@@ -6,6 +6,7 @@
 
 #include <rbl_logger.h>
 
+#include <rgl_icon.h>
 #include <rgl_message_box.h>
 
 #include "application.h"
@@ -17,8 +18,8 @@ CloudStatisticsDialog::CloudStatisticsDialog(QWidget *parent)
     this->cloudClient = qobject_cast<Application*>(Application::instance())->getCloudConnectionHandler()->createPrivateClient(this);
     this->cloudClient->setBlocking(false);
 
-    QIcon closeIcon(":/icons/action/pixmaps/range-close.svg");
-    QIcon refreshIcon(":/icons/cloud/pixmaps/range-refresh.svg");
+    QIcon closeIcon = RIcon::fromFile(":/icons/action/pixmaps/range-close.svg");
+    QIcon refreshIcon = RIcon::fromFile(":/icons/cloud/pixmaps/range-refresh.svg");
 
     this->resize(700,500);
 

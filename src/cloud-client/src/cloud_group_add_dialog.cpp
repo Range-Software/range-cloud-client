@@ -3,13 +3,15 @@
 
 #include <rcl_group_info.h>
 
+#include <rgl_icon.h>
+
 #include "cloud_group_add_dialog.h"
 
 CloudGroupAddDialog::CloudGroupAddDialog(QWidget *parent)
     : QDialog(parent)
 {
-    QIcon cancelIcon(":/icons/action/pixmaps/range-cancel.svg");
-    QIcon okIcon(":/icons/action/pixmaps/range-add.svg");
+    QIcon cancelIcon = RIcon::fromFile(":/icons/action/pixmaps/range-cancel.svg");
+    QIcon okIcon = RIcon::fromFile(":/icons/action/pixmaps/range-add.svg");
 
     this->setWindowTitle(tr("Add user group"));
 

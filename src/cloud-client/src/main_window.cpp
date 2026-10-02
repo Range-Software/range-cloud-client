@@ -15,12 +15,14 @@
 #include <rbl_utils.h>
 
 #include <rgl_first_run_dialog.h>
+#include <rgl_icon.h>
 #include <rgl_message_box.h>
 #include <rgl_progress_handler.h>
 #include <rgl_progress_bar.h>
 
 #include "main_window.h"
 #include "action.h"
+#include "application.h"
 #include "central_widget.h"
 #include "cloud_session_combo_box.h"
 
@@ -45,7 +47,7 @@ MainWindow::MainWindow(RCloudSessionManager *cloudSession,
     this->applyShortcutsToActions();
 
     this->setWindowTitle(RVendor::name() + " :: " + tr("Client tool"));
-    this->setWindowIcon(QIcon(":/icons/logos/pixmaps/range-cloud-client.svg"));
+    this->setWindowIcon(RIcon::fromFile(Application::windowIconFile()));
 
     int toolbarIconSize = this->applicationSettings->getToolbarIconSize();
     this->setIconSize(QSize(toolbarIconSize,toolbarIconSize));

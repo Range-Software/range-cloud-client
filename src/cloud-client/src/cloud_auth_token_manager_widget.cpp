@@ -5,6 +5,7 @@
 
 #include <rbl_logger.h>
 
+#include <rgl_icon.h>
 #include <rgl_message_box.h>
 
 #include "cloud_auth_token_manager_widget.h"
@@ -17,8 +18,8 @@ CloudAuthTokenManagerWidget::CloudAuthTokenManagerWidget(const QString &resource
     this->cloudClient = qobject_cast<Application*>(Application::instance())->getCloudConnectionHandler()->createPrivateClient(this);
     this->cloudClient->setBlocking(false);
 
-    QIcon generateIcon(":/icons/action/pixmaps/range-add.svg");
-    QIcon removeIcon(":/icons/action/pixmaps/range-remove.svg");
+    QIcon generateIcon = RIcon::fromFile(":/icons/action/pixmaps/range-add.svg");
+    QIcon removeIcon = RIcon::fromFile(":/icons/action/pixmaps/range-remove.svg");
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->setContentsMargins(0,0,0,0);

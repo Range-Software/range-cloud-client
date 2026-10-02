@@ -2,6 +2,8 @@
 #include <QPushButton>
 #include <QDialogButtonBox>
 
+#include <rgl_icon.h>
+
 #include "cloud_auth_token_manager_dialog.h"
 #include "cloud_auth_token_manager_widget.h"
 
@@ -9,7 +11,7 @@ CloudAuthTokenManagerDialog::CloudAuthTokenManagerDialog(const QString &resource
     : QDialog{parent}
     , userName{resourceName}
 {
-    QIcon closeIcon(":/icons/action/pixmaps/range-close.svg");
+    QIcon closeIcon = RIcon::fromFile(":/icons/action/pixmaps/range-close.svg");
 
     this->setWindowTitle(tr("Manage authentication tokens"));
 
