@@ -1,6 +1,3 @@
-find_package(Qt6 REQUIRED COMPONENTS Core)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-
 qt_add_executable(cloud-client
     src/action.cpp
     src/application.cpp
@@ -55,8 +52,6 @@ target_link_libraries(cloud-client
         range-gui-lib
         common_defines
 )
-target_link_libraries(cloud-client PRIVATE Qt6::Core)
-target_link_libraries(cloud-client PRIVATE Qt6::Widgets)
 
 set_target_properties(cloud-client
     PROPERTIES
@@ -79,10 +74,33 @@ elseif (APPLE)
     set_source_files_properties("${APP_ICON}" PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
     target_sources(cloud-client PRIVATE "${APP_ICON}")
 
-    add_custom_command(TARGET cloud-client POST_BUILD
-        COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleName '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist" || /usr/libexec/PlistBuddy -c "Add :CFBundleName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
-        COMMAND /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist" || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string '${PROJECT_SHORT_NAME}'" "$<TARGET_BUNDLE_DIR_NAME:${PROJECT_TARGET_NAME}>/Contents/Info.plist"
-        COMMENT "Set CFBundleName and CFBundleDisplayName"
+    # Info.plist is generated from a template rather than patched after the
+    # build, because the App Store requires keys CMake does not write on its own
+    # (bundle identifier, category, copyright, encryption declaration).
+    set(MACOSX_BUNDLE_EXECUTABLE_NAME "${PROJECT_TARGET_NAME}${DEBUG_EXT}")
+    set(MACOSX_BUNDLE_ICON_FILE "${PROJECT_PACKAGE_NAME}")
+    set(MACOSX_BUNDLE_GUI_IDENTIFIER "${MACOS_BUNDLE_IDENTIFIER}")
+    set(MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_SHORT_REL_NAME}")
+    set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")
+    # The App Store requires CFBundleVersion to grow with every upload, across
+    # releases too, so with a build number it is the build number alone, which
+    # grows with every store run independently of the release version.
+    if(RANGE_BUILD_NUMBER GREATER 0)
+        set(MACOSX_BUNDLE_BUNDLE_VERSION "${RANGE_BUILD_NUMBER}")
+    else()
+        set(MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}")
+    endif()
+    set(MACOSX_BUNDLE_CATEGORY "${MACOS_APP_CATEGORY}")
+    set(MACOSX_BUNDLE_COPYRIGHT "Copyright (C) ${PROJECT_YEAR} ${PROJECT_AUTHOR}")
+    configure_file(
+        ${CMAKE_SOURCE_DIR}/range-build-tools/packaging/macos/Info.plist.in
+        ${CMAKE_CURRENT_BINARY_DIR}/Info.plist
+        @ONLY
+    )
+
+    set_target_properties(cloud-client
+        PROPERTIES
+            MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_BINARY_DIR}/Info.plist"
     )
 endif()
 

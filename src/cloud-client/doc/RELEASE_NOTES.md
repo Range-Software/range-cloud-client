@@ -15,6 +15,49 @@
 - The Windows application icon fills the whole icon area instead of following
   the macOS grid with its wide transparent margin, and the ICO file carries
   dedicated images from 16 to 256 px. The macOS icon is unchanged
+- New **Application > Folders** submenu opens the application folders -
+  *Certificates*, *Data*, *Logs*, *Sessions* and *Temporary files* - in the file
+  browser of the operating system (Finder on macOS, File Explorer on Windows, the
+  file manager on Linux). Help pages of the new actions in English and Slovak
+- The privacy policy is installed with the application next to the license
+
+### Store builds
+
+- A build configured with `-DRANGE_STORE_BUILD=ON` produces a bundle ready for
+  the Mac App Store. Its `Info.plist` is generated from a template and carries
+  the bundle identifier, the *Productivity* category, the copyright and the
+  encryption declaration, and its entitlements carry the Apple Developer Team ID
+  set by `MACOS_TEAM_ID`. The entitlements are the application's own and leave
+  out printing, which the application does not use
+- `RANGE_BUILD_NUMBER` sets a build number that grows with every store upload.
+  It becomes `CFBundleVersion` on macOS and the third version component of the
+  MSIX package, so a release can be resubmitted after a rejection
+- Store builds reset the paths of the OpenSSL tool and its configuration to the
+  ones shipped with the application on every start, as a store installs every
+  version into a folder of its own
+
+### Bug fixes
+
+- The sandboxed Mac App Store version keeps its folders in
+  `Library/Application Support/Range Software/Cloud Client` inside its container
+  (`~/Library/Containers/com.range-software.cloud-client/Data`), as the App
+  Sandbox does not allow it to write to the Documents folder. Other versions keep
+  using `Documents/Range Software/Cloud Client`. Use **Application > Folders** to
+  find them
+- Release notes of the application were copied into `Contents/MacOS` of the
+  macOS bundle, where `macdeployqt` and `codesign` accept only binaries. They are
+  now only placed in `Contents/Resources/doc`
+- The `msix` target was not created when the Windows SDK tools were only in a
+  versioned folder such as `Windows Kits/10/bin/10.0.22621.0/x64`. The build now
+  finds `makeappx.exe` there, newest SDK version first
+
+### Submodules
+
+- range-ai-lib @ v1.1.0
+- range-base-lib @ v1.2.0
+- range-build-tools @ v1.1.0
+- range-cloud-lib @ v1.2.0
+- range-gui-lib @ v1.3.0
 
 ---
 

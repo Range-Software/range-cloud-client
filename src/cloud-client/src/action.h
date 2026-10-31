@@ -39,6 +39,11 @@ class Action : public RAction
         enum Type
         {
             ACTION_SEPARATOR = 0,
+            ACTION_APPLICATION_FOLDER_CERT,
+            ACTION_APPLICATION_FOLDER_DATA,
+            ACTION_APPLICATION_FOLDER_LOG,
+            ACTION_APPLICATION_FOLDER_SESSION,
+            ACTION_APPLICATION_FOLDER_TMP,
             ACTION_APPLICATION_SETTINGS,
             ACTION_APPLICATION_UPDATE,
             ACTION_APPLICATION_ABOUT,
@@ -93,6 +98,9 @@ class Action : public RAction
                            PointerToMemberToggle toggleSlot,
                            QAction::MenuRole menuRole = QAction::NoRole);
 
+        //! Open given folder in the platform file browser.
+        static void openFolder(const QString &dirPath);
+
     public slots:
 
         //! Help center.
@@ -100,6 +108,21 @@ class Action : public RAction
 
         //! Quit program.
         void onQuit();
+
+        //! Open certificates folder.
+        void onFolderCert();
+
+        //! Open data folder.
+        void onFolderData();
+
+        //! Open log folder.
+        void onFolderLog();
+
+        //! Open session folder.
+        void onFolderSession();
+
+        //! Open temporary folder.
+        void onFolderTmp();
 
         //! Application settings.
         void onApplicationSettings();

@@ -8,6 +8,7 @@
 #include <rbl_utils.h>
 
 #include <rgl_application_settings_dialog.h>
+#include <rgl_desktop_services.h>
 #include <rgl_help_dialog.h>
 #include <rgl_message_box.h>
 #include <rgl_release_notes_dialog.h>
@@ -42,6 +43,11 @@ QString Action::getName(Type type)
 {
     switch (type)
     {
+        case ACTION_APPLICATION_FOLDER_CERT:    return "application-folder_cert";
+        case ACTION_APPLICATION_FOLDER_DATA:    return "application-folder_data";
+        case ACTION_APPLICATION_FOLDER_LOG:     return "application-folder_log";
+        case ACTION_APPLICATION_FOLDER_SESSION: return "application-folder_session";
+        case ACTION_APPLICATION_FOLDER_TMP:     return "application-folder_tmp";
         case ACTION_APPLICATION_SETTINGS:      return "application-settings";
         case ACTION_APPLICATION_UPDATE:        return "application-update";
         case ACTION_APPLICATION_ABOUT:         return "application-about";
@@ -77,6 +83,11 @@ QList<RAction::Definition> Action::generateActionDefinitionList()
     actionDef.resize(ACTION_N_TYPES);
 
     actionDef[ACTION_SEPARATOR] = RAction::definition();
+    Action::regDef(actionDef, ACTION_GROUP_APPLICATION, ACTION_APPLICATION_FOLDER_CERT, tr("Certificates"), tr("Open certificates folder in file browser."), "", ":/icons/file/pixmaps/range-open.svg", static_cast<PointerToMemberTrigger>(&Action::onFolderCert));
+    Action::regDef(actionDef, ACTION_GROUP_APPLICATION, ACTION_APPLICATION_FOLDER_DATA, tr("Data"), tr("Open data folder in file browser."), "", ":/icons/file/pixmaps/range-open.svg", static_cast<PointerToMemberTrigger>(&Action::onFolderData));
+    Action::regDef(actionDef, ACTION_GROUP_APPLICATION, ACTION_APPLICATION_FOLDER_LOG, tr("Logs"), tr("Open log folder in file browser."), "", ":/icons/file/pixmaps/range-open.svg", static_cast<PointerToMemberTrigger>(&Action::onFolderLog));
+    Action::regDef(actionDef, ACTION_GROUP_APPLICATION, ACTION_APPLICATION_FOLDER_SESSION, tr("Sessions"), tr("Open session folder in file browser."), "", ":/icons/file/pixmaps/range-open.svg", static_cast<PointerToMemberTrigger>(&Action::onFolderSession));
+    Action::regDef(actionDef, ACTION_GROUP_APPLICATION, ACTION_APPLICATION_FOLDER_TMP, tr("Temporary files"), tr("Open temporary files folder in file browser."), "", ":/icons/file/pixmaps/range-open.svg", static_cast<PointerToMemberTrigger>(&Action::onFolderTmp));
     Action::regDef(actionDef, ACTION_GROUP_APPLICATION, ACTION_APPLICATION_SETTINGS, tr("Application settings"), "", "Ctrl+A", ":/icons/application/pixmaps/range-settings.svg", static_cast<PointerToMemberTrigger>(&Action::onApplicationSettings), QAction::PreferencesRole);
     Action::regDef(actionDef, ACTION_GROUP_APPLICATION, ACTION_APPLICATION_UPDATE, tr("Check for update"), "", "", ":/icons/application/pixmaps/range-update.svg", static_cast<PointerToMemberTrigger>(&Action::onUpdate));
     Action::regDef(actionDef, ACTION_GROUP_APPLICATION, ACTION_APPLICATION_ABOUT, tr("About"), "", "F1", ":/icons/application/pixmaps/range-about.svg", static_cast<PointerToMemberTrigger>(&Action::onAbout), QAction::AboutRole);
@@ -115,6 +126,16 @@ void Action::regDef(QList<Definition> &actionDefinition, GroupType groupType, Ty
                                                  menuRole);
 }
 
+void Action::openFolder(const QString &dirPath)
+{
+    if (!RDesktopServices::openDirectory(dirPath))
+    {
+        RMessageBox::warning(Application::instance()->getMainWindow(),
+                             tr("Failed to open folder"),
+                             tr("Failed to open folder") + ": <tt>" + dirPath + "</tt>");
+    }
+}
+
 void Action::onHelp()
 {
     R_LOG_TRACE_IN;
@@ -135,6 +156,41 @@ void Action::onQuit()
 {
     R_LOG_TRACE_IN;
     Application::instance()->getMainWindow()->close();
+    R_LOG_TRACE_OUT;
+}
+
+void Action::onFolderCert()
+{
+    R_LOG_TRACE_IN;
+    Action::openFolder(RApplicationSettings::getCertDir());
+    R_LOG_TRACE_OUT;
+}
+
+void Action::onFolderData()
+{
+    R_LOG_TRACE_IN;
+    Action::openFolder(RApplicationSettings::getDataDir());
+    R_LOG_TRACE_OUT;
+}
+
+void Action::onFolderLog()
+{
+    R_LOG_TRACE_IN;
+    Action::openFolder(RApplicationSettings::getLogDir());
+    R_LOG_TRACE_OUT;
+}
+
+void Action::onFolderSession()
+{
+    R_LOG_TRACE_IN;
+    Action::openFolder(RApplicationSettings::getSessionDir());
+    R_LOG_TRACE_OUT;
+}
+
+void Action::onFolderTmp()
+{
+    R_LOG_TRACE_IN;
+    Action::openFolder(RApplicationSettings::getTmpDir());
     R_LOG_TRACE_OUT;
 }
 

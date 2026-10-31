@@ -103,6 +103,15 @@ void MainWindow::createMenus()
 
     QMenu *menuApplication = new QMenu(menubar);
     menuApplication->setTitle(QApplication::translate("MainWindow", "Application"));
+    QMenu *menuApplicationFolders = new QMenu(menuApplication);
+    menuApplicationFolders->setTitle(tr("Folders"));
+    menuApplicationFolders->setIcon(RIcon::fromFile(":/icons/file/pixmaps/range-open.svg"));
+    menuApplicationFolders->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_FOLDER_CERT));
+    menuApplicationFolders->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_FOLDER_DATA));
+    menuApplicationFolders->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_FOLDER_LOG));
+    menuApplicationFolders->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_FOLDER_SESSION));
+    menuApplicationFolders->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_FOLDER_TMP));
+    menuApplication->addAction(menuApplicationFolders->menuAction());
     menuApplication->addAction(this->actionList->getAction(Action::ACTION_SEPARATOR));
     menuApplication->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_SETTINGS));
     menuApplication->addAction(this->actionList->getAction(Action::ACTION_SEPARATOR));

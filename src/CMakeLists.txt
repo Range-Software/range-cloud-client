@@ -41,10 +41,22 @@ endif()
 # software updates itself, so STORE_BUILD also removes the built-in updater.
 option(RANGE_STORE_BUILD "Build for Apple App Store / Microsoft Store submission" OFF)
 
+# Both stores reject an upload whose build version they have already seen, which
+# a resubmission of the same release after a rejection would be. A store build
+# therefore takes a build number that grows with every run (the CI run number);
+# 0 means none and leaves the versions derived from PROJECT_VERSION alone.
+set(RANGE_BUILD_NUMBER "0" CACHE STRING
+    "Store build number, increasing with every store upload; 0 for none")
+if(NOT RANGE_BUILD_NUMBER MATCHES "^[0-9]+$" OR RANGE_BUILD_NUMBER GREATER 65535)
+    message(FATAL_ERROR "RANGE_BUILD_NUMBER must be an integer between 0 and 65535, got '${RANGE_BUILD_NUMBER}'")
+endif()
+
 # --- Apple App Store ---------------------------------------------------------
+set(MACOS_TEAM_ID "" CACHE STRING
+    "Apple Developer Team ID; must match the team of the provisioning profile")
 set(MACOS_BUNDLE_IDENTIFIER "com.range-software.cloud-client" CACHE STRING
     "CFBundleIdentifier; must match the application record in App Store Connect")
-set(MACOS_APP_CATEGORY "public.app-category.lifestyle" CACHE STRING
+set(MACOS_APP_CATEGORY "public.app-category.productivity" CACHE STRING
     "LSApplicationCategoryType of the application bundle")
 set(MACOS_APP_STORE_APP_CERT "" CACHE STRING
     "Signing identity for the bundle, '3rd Party Mac Developer Application: ...'")
@@ -124,17 +136,23 @@ foreach(tgt IN LISTS all_targets)
     add_subdirectory(${tgt})
     set_debug_suffix_if_needed(${tgt})
     if(EXISTS "${CMAKE_SOURCE_DIR}/${tgt}/doc/RELEASE_NOTES.md")
-        # The copy carries the target name, because several targets can share
-        # one output directory (cloud-client land in the build root)
-        # and a plain RELEASE_NOTES.md would be overwritten by the last one.
-        add_custom_target(copy-release-notes-${tgt} ALL
-            COMMAND ${CMAKE_COMMAND} -E copy
-                    "${CMAKE_SOURCE_DIR}/${tgt}/doc/RELEASE_NOTES.md"
-                    "$<TARGET_FILE_DIR:${tgt}>/RELEASE_NOTES_${tgt}.md"
-            DEPENDS ${tgt}
-            COMMENT "Copying RELEASE_NOTES.md for ${tgt}"
-            VERBATIM
-        )
+        # On macOS a bundle's output directory is Contents/MacOS, where only
+        # binaries may live (macdeployqt and codesign reject anything else);
+        # its release notes go to Contents/Resources/doc during deployment.
+        get_target_property(_tgt_is_bundle ${tgt} MACOSX_BUNDLE)
+        if(NOT (APPLE AND _tgt_is_bundle))
+            # The copy carries the target name, because several targets can share
+            # one output directory (client lands in the build root)
+            # and a plain RELEASE_NOTES.md would be overwritten by the last one.
+            add_custom_target(copy-release-notes-${tgt} ALL
+                COMMAND ${CMAKE_COMMAND} -E copy
+                        "${CMAKE_SOURCE_DIR}/${tgt}/doc/RELEASE_NOTES.md"
+                        "$<TARGET_FILE_DIR:${tgt}>/RELEASE_NOTES_${tgt}.md"
+                DEPENDS ${tgt}
+                COMMENT "Copying RELEASE_NOTES.md for ${tgt}"
+                VERBATIM
+            )
+        endif()
         if(NOT APPLE)
             install(FILES "${CMAKE_SOURCE_DIR}/${tgt}/doc/RELEASE_NOTES.md"
                     DESTINATION doc
@@ -236,6 +254,7 @@ elseif(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/${PROJECT_TARGET_NAME}/etc ${APP_DIR_NEW}/Contents/Resources/etc
         COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DIR_NEW}/Contents/Resources/doc
         COMMAND ${CMAKE_COMMAND} -E copy           ${CMAKE_BINARY_DIR}/LICENSE.txt ${APP_DIR_NEW}/Contents/Resources/doc/LICENSE.txt
+        COMMAND ${CMAKE_COMMAND} -E copy           ${CMAKE_BINARY_DIR}/PRIVACY_POLICY.txt ${APP_DIR_NEW}/Contents/Resources/doc/PRIVACY_POLICY.txt
         DEPENDS deploy-qt
         COMMENT "Deploying application data"
         VERBATIM
@@ -344,6 +363,7 @@ if(WIN32)
     install(DIRECTORY ${PROJECT_TARGET_NAME}/etc/ DESTINATION etc COMPONENT Application)
     install(DIRECTORY ${_qt_deploy_dir}/ DESTINATION bin COMPONENT Application)
     install(FILES ${CMAKE_BINARY_DIR}/LICENSE.txt DESTINATION doc COMPONENT Application)
+    install(FILES ${CMAKE_BINARY_DIR}/PRIVACY_POLICY.txt DESTINATION doc COMPONENT Application)
     if(_rn_json_path)
         install(FILES ${_rn_json_path} DESTINATION doc COMPONENT Application)
     endif()
@@ -387,6 +407,7 @@ else()
     install(DIRECTORY ${PROJECT_TARGET_NAME}/etc/ DESTINATION etc COMPONENT Application)
     install(DIRECTORY ${_qt_deploy_dir}/ DESTINATION . COMPONENT Application)
     install(FILES ${CMAKE_BINARY_DIR}/LICENSE.txt DESTINATION doc COMPONENT Application)
+    install(FILES ${CMAKE_BINARY_DIR}/PRIVACY_POLICY.txt DESTINATION doc COMPONENT Application)
     install(FILES ${PROJECT_TARGET_NAME}/pixmaps/${PROJECT_PACKAGE_NAME}.svg DESTINATION pixmaps COMPONENT Application)
     if(_rn_json_path)
         install(FILES ${_rn_json_path} DESTINATION doc COMPONENT Application)
@@ -530,6 +551,12 @@ configure_file(
     @ONLY
 )
 
+configure_file(
+    ${CMAKE_SOURCE_DIR}/range-build-tools/PRIVACY_POLICY.txt.in
+    ${CMAKE_BINARY_DIR}/PRIVACY_POLICY.txt
+    @ONLY
+)
+
 if(WIN32)
     file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/staging" ISS_STAGING_DIR)
     file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}" ISS_OUTPUT_DIR)
@@ -570,13 +597,15 @@ endif()
 if(RANGE_STORE_BUILD AND APPLE)
     set(_mac_store_dir "${CMAKE_BINARY_DIR}/packaging/macos")
 
+    # The entitlements come from this project rather than range-build-tools,
+    # whose templates also cover printing, which this application does not do.
     configure_file(
-        ${CMAKE_SOURCE_DIR}/range-build-tools/packaging/macos/app.entitlements.in
+        ${CMAKE_SOURCE_DIR}/packaging/macos/app.entitlements.in
         ${_mac_store_dir}/app.entitlements
-        COPYONLY
+        @ONLY
     )
     configure_file(
-        ${CMAKE_SOURCE_DIR}/range-build-tools/packaging/macos/helper.entitlements.in
+        ${CMAKE_SOURCE_DIR}/packaging/macos/helper.entitlements.in
         ${_mac_store_dir}/helper.entitlements
         COPYONLY
     )
@@ -597,10 +626,14 @@ if(RANGE_STORE_BUILD AND APPLE)
         )
     endif()
 
-    if(MACOS_APP_STORE_APP_CERT)
+    if(MACOS_APP_STORE_APP_CERT AND NOT MACOS_TEAM_ID)
+        message(WARNING "RANGE_STORE_BUILD is ON but MACOS_TEAM_ID is empty; the 'mac-app-store' target is not available")
+    elseif(MACOS_APP_STORE_APP_CERT)
         # Deliberately not part of ALL: signing needs the store certificates,
         # which a plain developer build does not have.
         add_custom_target(mac-app-store
+            # See the 'codesign' target: extended attributes break signing.
+            COMMAND /usr/bin/xattr -cr "${APP_DIR_NEW}"
             COMMAND ${CMAKE_SOURCE_DIR}/range-build-tools/mac_app_store.sh ${_mac_store_args}
             DEPENDS gen-dsstore
             COMMENT "Signing the bundle for the Apple App Store"
@@ -613,19 +646,34 @@ if(RANGE_STORE_BUILD AND APPLE)
 endif()
 
 if(RANGE_STORE_BUILD AND WIN32)
+    # The Windows SDK installs its tools into versioned folders such as
+    # bin/10.0.22621.0/x64, so search those too, newest version first.
+    set(_windows_sdk_bin_dirs)
+    foreach(_sdk_root "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin" "$ENV{ProgramFiles}/Windows Kits/10/bin")
+        file(GLOB _sdk_version_dirs LIST_DIRECTORIES true "${_sdk_root}/10.*")
+        list(SORT _sdk_version_dirs COMPARE NATURAL ORDER DESCENDING)
+        list(APPEND _windows_sdk_bin_dirs ${_sdk_version_dirs} "${_sdk_root}")
+    endforeach()
+
     find_program(MAKEAPPX_EXECUTABLE
         NAMES makeappx
         PATHS
-            "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin"
-            "$ENV{ProgramFiles}/Windows Kits/10/bin"
+            ${_windows_sdk_bin_dirs}
         PATH_SUFFIXES
             x64 arm64
         DOC "MSIX packaging tool (makeappx.exe) from the Windows SDK"
     )
 
     # MSIX versions are always four components and the Store reserves the last
-    # one, which has to stay zero in an uploaded package.
-    set(MSIX_PACKAGE_VERSION "${PROJECT_VERSION}.0")
+    # one, which has to stay zero in an uploaded package. With a build number
+    # it takes the place of the patch number, so that every upload is higher
+    # than the one before even within one release.
+    if(RANGE_BUILD_NUMBER GREATER 0)
+        string(REGEX MATCH "^[0-9]+\\.[0-9]+" _msix_major_minor "${PROJECT_VERSION}")
+        set(MSIX_PACKAGE_VERSION "${_msix_major_minor}.${RANGE_BUILD_NUMBER}.0")
+    else()
+        set(MSIX_PACKAGE_VERSION "${PROJECT_VERSION}.0")
+    endif()
     set(MSIX_EXECUTABLE_NAME "${PROJECT_TARGET_NAME}${DEBUG_EXT}")
     if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(ARM64|arm64|aarch64)$")
         set(MSIX_ARCHITECTURE "arm64")

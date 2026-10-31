@@ -1,3 +1,5 @@
+#include <rgl_application_settings.h>
+
 #include "application.h"
 #include "action.h"
 #include "main_window.h"
@@ -27,6 +29,16 @@ QString Application::windowIconFile()
 
 void Application::initialize()
 {
+#ifdef STORE_BUILD
+    // A store installs every version into a folder of its own (a versioned
+    // directory under WindowsApps for MSIX), so a path stored by the previous
+    // version points into a folder which no longer exists. The OpenSSL tool and
+    // its configuration belong to the package itself, so they are reset to the
+    // defaults without asking.
+    this->applicationSettings->setOpensslToolPath(RApplicationSettings::getDefaultOpensslToolPath());
+    this->applicationSettings->setOpensslConfPath(this->applicationSettings->findOpensslConfPath());
+#endif
+
     // Initialize action list
     this->actionList = new RActionList(Action::generateActionDefinitionList(),this);
 
