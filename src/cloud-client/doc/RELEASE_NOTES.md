@@ -20,6 +20,12 @@
   browser of the operating system (Finder on macOS, File Explorer on Windows, the
   file manager on Linux). Help pages of the new actions in English and Slovak
 - The privacy policy is installed with the application next to the license
+- On macOS the private key and the certificate signing request are generated with
+  the Apple Security framework instead of the `openssl` tool, and so is the text
+  shown by the private key view. The `openssl` tool is no longer bundled with the
+  application, only the OpenSSL libraries used for TLS connections. The paths of
+  the OpenSSL tool and its configuration are hidden in the application settings.
+  Configure with `-DRANGE_NATIVE_KEY_TOOL=OFF` to keep using the `openssl` tool
 
 ### Store builds
 
@@ -50,6 +56,9 @@
 - The `msix` target was not created when the Windows SDK tools were only in a
   versioned folder such as `Windows Kits/10/bin/10.0.22621.0/x64`. The build now
   finds `makeappx.exe` there, newest SDK version first
+- Certificate signing requests generated on macOS store subject fields with
+  characters outside ASCII, such as `Žilina`, correctly. The `openssl` tool used
+  before stored them in a mangled form (`Å½ilina`)
 
 ### Submodules
 
