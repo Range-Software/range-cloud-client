@@ -33,6 +33,9 @@
   authority as the session's host *Certificate* and the host name is not checked.
   *No verification* accepts any certificate and does not guarantee the identity of
   the host
+- Cloud requests are faster. A request completes as soon as the reply arrives,
+  where it used to wait up to an extra second, and connections to the Cloud are
+  kept open and reused between requests instead of being opened for each one
 
 ### Store builds
 
