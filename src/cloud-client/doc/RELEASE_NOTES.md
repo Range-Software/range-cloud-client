@@ -26,6 +26,13 @@
   application, only the OpenSSL libraries used for TLS connections. The paths of
   the OpenSSL tool and its configuration are hidden in the application settings.
   Configure with `-DRANGE_NATIVE_KEY_TOOL=OFF` to keep using the `openssl` tool
+- New *Verification* setting of the Cloud host in the session manager. *Full
+  verification* (default) checks that the host certificate is issued by a trusted
+  certificate authority and matches the host name. *Trusted certificate only (skip
+  host name)* is meant for a server reached by its IP address: set its certificate
+  authority as the session's host *Certificate* and the host name is not checked.
+  *No verification* accepts any certificate and does not guarantee the identity of
+  the host
 
 ### Store builds
 
@@ -59,14 +66,19 @@
 - Certificate signing requests generated on macOS store subject fields with
   characters outside ASCII, such as `Žilina`, correctly. The `openssl` tool used
   before stored them in a mangled form (`Å½ilina`)
+- The host certificate was not verified, so a connection to a host presenting a
+  certificate from an untrusted authority or for another host name was accepted
+  and only reported as SSL errors in the output. Such connections are now refused.
+  A session whose host uses a private certificate authority needs that authority
+  set as its host *Certificate*, or its *Verification* relaxed
 
 ### Submodules
 
 - range-ai-lib @ v1.1.0
 - range-base-lib @ v1.2.0
 - range-build-tools @ v1.1.0
-- range-cloud-lib @ v1.2.0
-- range-gui-lib @ v1.3.0
+- range-cloud-lib @ v1.3.0
+- range-gui-lib @ v1.3.1
 
 ---
 
