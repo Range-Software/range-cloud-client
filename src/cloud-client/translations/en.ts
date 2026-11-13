@@ -4,122 +4,142 @@
 <context>
     <name>Action</name>
     <message>
-        <location filename="../src/action.cpp" line="97"/>
-        <location filename="../src/action.cpp" line="148"/>
+        <location filename="../src/action.cpp" line="102"/>
+        <location filename="../src/action.cpp" line="153"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="91"/>
+        <location filename="../src/action.cpp" line="94"/>
         <source>Application settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="86"/>
+        <location filename="../src/action.cpp" line="89"/>
         <source>Certificates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="86"/>
+        <location filename="../src/action.cpp" line="89"/>
         <source>Open certificates folder in file browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="87"/>
+        <location filename="../src/action.cpp" line="90"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="87"/>
+        <location filename="../src/action.cpp" line="90"/>
         <source>Open data folder in file browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="88"/>
+        <location filename="../src/action.cpp" line="91"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="88"/>
+        <location filename="../src/action.cpp" line="91"/>
         <source>Open log folder in file browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="89"/>
+        <location filename="../src/action.cpp" line="92"/>
         <source>Sessions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="89"/>
+        <location filename="../src/action.cpp" line="92"/>
         <source>Open session folder in file browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="90"/>
+        <location filename="../src/action.cpp" line="93"/>
         <source>Temporary files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="90"/>
+        <location filename="../src/action.cpp" line="93"/>
         <source>Open temporary files folder in file browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="92"/>
-        <source>Check for update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/action.cpp" line="93"/>
-        <location filename="../src/action.cpp" line="216"/>
-        <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/action.cpp" line="94"/>
-        <location filename="../src/action.cpp" line="231"/>
-        <source>About Qt</source>
+        <location filename="../src/action.cpp" line="95"/>
+        <source>Ribbon layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/action.cpp" line="95"/>
-        <location filename="../src/action.cpp" line="250"/>
-        <source>License</source>
+        <source>Show commands in a ribbon instead of menus and tool bars.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/action.cpp" line="96"/>
-        <source>Release notes</source>
+        <source>Compact ribbon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="96"/>
+        <source>Show the ribbon in less vertical space, with smaller buttons and no group titles.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="97"/>
+        <source>Check for update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/action.cpp" line="98"/>
-        <source>Quit</source>
+        <location filename="../src/action.cpp" line="235"/>
+        <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/action.cpp" line="99"/>
-        <source>Session manager</source>
+        <location filename="../src/action.cpp" line="250"/>
+        <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/action.cpp" line="100"/>
+        <location filename="../src/action.cpp" line="269"/>
+        <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="101"/>
+        <source>Release notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="103"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="104"/>
+        <source>Session manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="105"/>
         <source>Statistics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="134"/>
-        <location filename="../src/action.cpp" line="135"/>
+        <location filename="../src/action.cpp" line="139"/>
+        <location filename="../src/action.cpp" line="140"/>
         <source>Failed to open folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="145"/>
+        <location filename="../src/action.cpp" line="150"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="146"/>
+        <location filename="../src/action.cpp" line="151"/>
         <source>Tutorials</source>
         <translation type="unfinished"></translation>
     </message>
@@ -127,22 +147,22 @@
 <context>
     <name>CentralWidget</name>
     <message>
-        <location filename="../src/central_widget.cpp" line="167"/>
+        <location filename="../src/central_widget.cpp" line="168"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/central_widget.cpp" line="171"/>
+        <location filename="../src/central_widget.cpp" line="172"/>
         <source>Users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/central_widget.cpp" line="175"/>
+        <location filename="../src/central_widget.cpp" line="176"/>
         <source>Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/central_widget.cpp" line="119"/>
+        <location filename="../src/central_widget.cpp" line="137"/>
         <source>Notice</source>
         <translation type="unfinished"></translation>
     </message>
@@ -899,65 +919,101 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/main_window.cpp" line="49"/>
+        <location filename="../src/main_window.cpp" line="60"/>
         <source>Client tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="105"/>
+        <location filename="../src/main_window.cpp" line="202"/>
+        <location filename="../src/main_window.cpp" line="350"/>
+        <location filename="../src/main_window.cpp" line="376"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="107"/>
+        <location filename="../src/main_window.cpp" line="204"/>
+        <location filename="../src/main_window.cpp" line="378"/>
         <source>Folders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="122"/>
+        <location filename="../src/main_window.cpp" line="226"/>
+        <location filename="../src/main_window.cpp" line="360"/>
+        <location filename="../src/main_window.cpp" line="362"/>
         <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="128"/>
+        <location filename="../src/main_window.cpp" line="237"/>
+        <location filename="../src/main_window.cpp" line="355"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="145"/>
-        <source>Main toolbar</source>
+        <location filename="../src/main_window.cpp" line="286"/>
+        <source>Session toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="292"/>
+        <source>Application toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="363"/>
+        <source>Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="369"/>
+        <source>Select active session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="385"/>
+        <source>Software</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="386"/>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="398"/>
+        <source>No session</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/action.cpp" line="32"/>
+        <location filename="../src/action.cpp" line="33"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="33"/>
+        <location filename="../src/action.cpp" line="34"/>
         <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="34"/>
+        <location filename="../src/action.cpp" line="35"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="35"/>
+        <location filename="../src/action.cpp" line="36"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="36"/>
+        <location filename="../src/action.cpp" line="37"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="37"/>
+        <location filename="../src/action.cpp" line="38"/>
         <source>Cloud</source>
         <translation type="unfinished"></translation>
     </message>

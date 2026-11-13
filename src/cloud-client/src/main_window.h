@@ -12,7 +12,11 @@
 
 #include <rgl_action_list.h>
 
+class QMenu;
+class QMenuBar;
+class QToolButton;
 class RProgressBar;
+class RRibbonBar;
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +31,14 @@ class MainWindow : public QMainWindow
         RApplicationSettings *applicationSettings;
         //! List of actions.
         RActionList *actionList;
+        //! List of tool bars in order of their default placement.
+        QList<QToolBar*> toolBars;
+        //! Menu bar shown in the layout with menus and tool bars.
+        QMenuBar *classicMenuBar;
+        //! Ribbon shown in the ribbon layout.
+        RRibbonBar *ribbonBar;
+        //! Ribbon button selecting active session.
+        QToolButton *ribbonSessionButton;
         //! Progress bar.
         RProgressBar* mainProgressBar;
         //! First run flag.
@@ -40,6 +52,12 @@ class MainWindow : public QMainWindow
                             RActionList *actionList,
                             QWidget *parent = nullptr);
 
+        //! Switch between ribbon layout and layout with menus and tool bars and remember the choice.
+        void setRibbonLayout(bool ribbonLayout);
+
+        //! Switch between compact and regular ribbon and remember the choice.
+        void setRibbonCompact(bool ribbonCompact);
+
         //! Enable progress-bar autohide.
         void progressAutoHideEnable();
 
@@ -51,8 +69,32 @@ class MainWindow : public QMainWindow
         //! Create all menu items.
         void createMenus();
 
+        //! Create application menu.
+        QMenu *createApplicationMenu(QWidget *parent);
+
+        //! Create session menu.
+        QMenu *createSessionMenu(QWidget *parent);
+
+        //! Create help menu.
+        QMenu *createHelpMenu(QWidget *parent);
+
+        //! Create menu selecting active session.
+        QMenu *createSessionSelectMenu(QWidget *parent);
+
         //! Create all tool bars.
         void createToolBars();
+
+        //! Create tool bar.
+        QToolBar *createToolBar(const QString &name, const QString &title);
+
+        //! Place tool bars to their default positions.
+        void placeToolBars();
+
+        //! Create ribbon.
+        void createRibbon();
+
+        //! Update text of ribbon button selecting active session.
+        void updateRibbonSessionButton();
 
         //! Create status bar.
         void createStatusBar();

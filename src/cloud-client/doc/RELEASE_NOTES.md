@@ -36,6 +36,17 @@
 - Cloud requests are faster. A request completes as soon as the reply arrives,
   where it used to wait up to an extra second, and connections to the Cloud are
   kept open and reused between requests instead of being opened for each one
+- New optional ribbon layout shows commands on the pages "Session" and
+  "Application" instead of menus and tool bars. The "Application" menu,
+  application settings and help stay in the line with the page tabs, and the
+  active session is selected with a button on the "Session" page. Switch it with
+  "Ribbon layout" in the Application menu or on the application tool bar.
+  "Compact ribbon" shows it in less vertical space, with smaller buttons and no
+  group titles. Both choices, the selected page and the collapsed state are
+  remembered. The ribbon shares its icons and widgets with Range Family
+- Tool bars are reorganized into "Session" and "Application" tool bars, each of
+  which can be moved or hidden on its own. "Quit" and "About" are no longer on a
+  tool bar. The new arrangement is applied once to existing installations
 
 ### Store builds
 
@@ -54,6 +65,13 @@
 
 ### Bug fixes
 
+- Changing the style or the color scheme while the application runs shrank the
+  tool bar icons to the default size of the style. Tool bars now keep the icon
+  size set in the application settings
+- After the color scheme changed, the labels of the "Files", "Users" and
+  "Output" tabs kept the text color of the previous scheme, which made them hard
+  to read after switching between a light and a dark scheme, and text already
+  printed to the application output kept the previous colors
 - The sandboxed Mac App Store version keeps its folders in
   `Library/Application Support/Range Software/Cloud Client` inside its container
   (`~/Library/Containers/com.range-software.cloud-client/Data`), as the App
@@ -77,9 +95,9 @@
 
 ### Submodules
 
-- range-ai-lib @ v1.1.0
-- range-base-lib @ v1.2.0
-- range-build-tools @ v1.1.0
+- range-ai-lib @ v1.2.0
+- range-base-lib @ v1.2.1
+- range-build-tools @ v1.1.1
 - range-cloud-lib @ v1.3.0
 - range-gui-lib @ v1.3.1
 

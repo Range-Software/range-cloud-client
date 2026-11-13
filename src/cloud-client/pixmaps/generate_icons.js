@@ -86,6 +86,9 @@ const G = {
     + P('M6.25 6.75l.9 12.6a1.5 1.5 0 0 0 1.5 1.4h6.7a1.5 1.5 0 0 0 1.5-1.4l.9-12.6', s, C.paper) + P('M10 10.5v6.5M14 10.5v6.5', s, 'none', thin),
   axes: () => P('M4 3.5v16.75h16.5', C.ink),
   pencil: () => P('M14.75 4.25l5 5L9 20H4v-5z', C.amber, C.amberL) + P('M12.25 6.75l5 5', C.amber) + P('M4 15l5 5', C.amber, 'none', thin),
+  // Window with a ribbon, tabs at y and a divider below them at h.
+  ribbon: (y, h) => rect(3.5, 4.5, 17, 15, 2, C.blue, C.blueXL) + P(`M3.5 ${h}H20.5`, C.blue)
+    + P(`M7.5 ${y}H9.5M11 ${y}H13M14.5 ${y}H16.5`, C.blue),
 };
 
 // ---- Icons ----
@@ -100,6 +103,8 @@ I.license = G.doc() + P('M8.5 7h4M8.5 10h7', C.ink, 'none', thin)
   + P('M13.6 17.2l-1 4.3 2.9-1.4 2.9 1.4-1-4.3', C.amber, C.amberL) + circ(15.5, 15, 3, C.amber, C.amberL);
 I.release_notes = G.doc() + dot(9, 10, 1, C.blue) + dot(9, 13.5, 1, C.blue) + dot(9, 17, 1, C.blue)
   + P('M11.25 10h4.5M11.25 13.5h4.5M11.25 17h3', C.ink, 'none', thin);
+I.ribbon_layout = G.ribbon(8, 11.5);
+I.ribbon_compact = G.ribbon(6.75, 9) + arrow(12, 16.75, 12, 12, C.blue, 2.6);
 I.quit = G.power(C.red);
 
 // Action

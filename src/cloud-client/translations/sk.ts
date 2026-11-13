@@ -4,122 +4,142 @@
 <context>
     <name>Action</name>
     <message>
-        <location filename="../src/action.cpp" line="97"/>
-        <location filename="../src/action.cpp" line="148"/>
+        <location filename="../src/action.cpp" line="102"/>
+        <location filename="../src/action.cpp" line="153"/>
         <source>Help</source>
         <translation>Pomocník</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="91"/>
+        <location filename="../src/action.cpp" line="94"/>
         <source>Application settings</source>
         <translation>Nastavenia aplikácie</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="86"/>
+        <location filename="../src/action.cpp" line="89"/>
         <source>Certificates</source>
         <translation>Certifikáty</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="86"/>
+        <location filename="../src/action.cpp" line="89"/>
         <source>Open certificates folder in file browser.</source>
         <translation>Otvorí priečinok s certifikátmi v prehliadači súborov.</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="87"/>
+        <location filename="../src/action.cpp" line="90"/>
         <source>Data</source>
         <translation>Dáta</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="87"/>
+        <location filename="../src/action.cpp" line="90"/>
         <source>Open data folder in file browser.</source>
         <translation>Otvorí dátový priečinok v prehliadači súborov.</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="88"/>
+        <location filename="../src/action.cpp" line="91"/>
         <source>Logs</source>
         <translation>Záznamy</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="88"/>
+        <location filename="../src/action.cpp" line="91"/>
         <source>Open log folder in file browser.</source>
         <translation>Otvorí priečinok so záznamami v prehliadači súborov.</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="89"/>
+        <location filename="../src/action.cpp" line="92"/>
         <source>Sessions</source>
         <translation>Relácie</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="89"/>
+        <location filename="../src/action.cpp" line="92"/>
         <source>Open session folder in file browser.</source>
         <translation>Otvorí priečinok s reláciami v prehliadači súborov.</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="90"/>
+        <location filename="../src/action.cpp" line="93"/>
         <source>Temporary files</source>
         <translation>Dočasné súbory</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="90"/>
+        <location filename="../src/action.cpp" line="93"/>
         <source>Open temporary files folder in file browser.</source>
         <translation>Otvorí priečinok s dočasnými súbormi v prehliadači súborov.</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="92"/>
+        <location filename="../src/action.cpp" line="95"/>
+        <source>Ribbon layout</source>
+        <translation>Rozloženie s pásom kariet</translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="95"/>
+        <source>Show commands in a ribbon instead of menus and tool bars.</source>
+        <translation>Zobraziť príkazy na páse kariet namiesto ponúk a panelov nástrojov.</translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="96"/>
+        <source>Compact ribbon</source>
+        <translation>Kompaktný pás kariet</translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="96"/>
+        <source>Show the ribbon in less vertical space, with smaller buttons and no group titles.</source>
+        <translation>Zobraziť pás kariet s menšou výškou, menšími tlačidlami a bez názvov skupín.</translation>
+    </message>
+    <message>
+        <location filename="../src/action.cpp" line="97"/>
         <source>Check for update</source>
         <translation>Overiť aktualizáciu</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="93"/>
-        <location filename="../src/action.cpp" line="216"/>
+        <location filename="../src/action.cpp" line="98"/>
+        <location filename="../src/action.cpp" line="235"/>
         <source>About</source>
         <translation>O aplikácii</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="94"/>
-        <location filename="../src/action.cpp" line="231"/>
+        <location filename="../src/action.cpp" line="99"/>
+        <location filename="../src/action.cpp" line="250"/>
         <source>About Qt</source>
         <translation>O knižnici Qt</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="95"/>
-        <location filename="../src/action.cpp" line="250"/>
+        <location filename="../src/action.cpp" line="100"/>
+        <location filename="../src/action.cpp" line="269"/>
         <source>License</source>
         <translation>Licencia</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="96"/>
+        <location filename="../src/action.cpp" line="101"/>
         <source>Release notes</source>
         <translation>Poznámky k vydaniu</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="98"/>
+        <location filename="../src/action.cpp" line="103"/>
         <source>Quit</source>
         <translation>Skončiť</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="99"/>
+        <location filename="../src/action.cpp" line="104"/>
         <source>Session manager</source>
         <translation>Správca relácií</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="100"/>
+        <location filename="../src/action.cpp" line="105"/>
         <source>Statistics</source>
         <translation>Štatistika</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="134"/>
-        <location filename="../src/action.cpp" line="135"/>
+        <location filename="../src/action.cpp" line="139"/>
+        <location filename="../src/action.cpp" line="140"/>
         <source>Failed to open folder</source>
         <translation>Nepodarilo sa otvoriť priečinok</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="145"/>
+        <location filename="../src/action.cpp" line="150"/>
         <source>General</source>
         <translation>Všeobecné</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="146"/>
+        <location filename="../src/action.cpp" line="151"/>
         <source>Tutorials</source>
         <translation>Návody</translation>
     </message>
@@ -127,22 +147,22 @@
 <context>
     <name>CentralWidget</name>
     <message>
-        <location filename="../src/central_widget.cpp" line="167"/>
+        <location filename="../src/central_widget.cpp" line="168"/>
         <source>Files</source>
         <translation>Súbory</translation>
     </message>
     <message>
-        <location filename="../src/central_widget.cpp" line="171"/>
+        <location filename="../src/central_widget.cpp" line="172"/>
         <source>Users</source>
         <translation>Užívatelia</translation>
     </message>
     <message>
-        <location filename="../src/central_widget.cpp" line="175"/>
+        <location filename="../src/central_widget.cpp" line="176"/>
         <source>Output</source>
         <translation>Výstup</translation>
     </message>
     <message>
-        <location filename="../src/central_widget.cpp" line="119"/>
+        <location filename="../src/central_widget.cpp" line="137"/>
         <source>Notice</source>
         <translation>Upozornenie</translation>
     </message>
@@ -899,65 +919,105 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/main_window.cpp" line="49"/>
+        <location filename="../src/main_window.cpp" line="60"/>
         <source>Client tool</source>
         <translation>Klientský nástroj</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="105"/>
+        <location filename="../src/main_window.cpp" line="202"/>
+        <location filename="../src/main_window.cpp" line="350"/>
+        <location filename="../src/main_window.cpp" line="376"/>
         <source>Application</source>
         <translation>Aplikácia</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="107"/>
+        <location filename="../src/main_window.cpp" line="204"/>
+        <location filename="../src/main_window.cpp" line="378"/>
         <source>Folders</source>
         <translation>Priečinky</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="122"/>
+        <location filename="../src/main_window.cpp" line="226"/>
+        <location filename="../src/main_window.cpp" line="360"/>
+        <location filename="../src/main_window.cpp" line="362"/>
         <source>Session</source>
         <translation>Relácia</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="128"/>
+        <location filename="../src/main_window.cpp" line="237"/>
+        <location filename="../src/main_window.cpp" line="355"/>
         <source>Help</source>
         <translation>Pomocník</translation>
     </message>
     <message>
-        <location filename="../src/main_window.cpp" line="145"/>
+        <location filename="../src/main_window.cpp" line="286"/>
+        <source>Session toolbar</source>
+        <translation>Panel nástrojov relácie</translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="292"/>
+        <source>Application toolbar</source>
+        <translation>Panel nástrojov aplikácie</translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="363"/>
+        <source>Manager</source>
+        <translation>Správca</translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="369"/>
+        <source>Select active session</source>
+        <translation>Vybrať aktívnu reláciu</translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="385"/>
+        <source>Software</source>
+        <translation>Softvér</translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="386"/>
+        <source>Update</source>
+        <translation>Aktualizácia</translation>
+    </message>
+    <message>
+        <location filename="../src/main_window.cpp" line="398"/>
+        <source>No session</source>
+        <translation>Žiadna relácia</translation>
+    </message>
+    <message>
         <source>Main toolbar</source>
-        <translation>Hlavný panel nástrojov</translation>
+        <translation type="vanished">Hlavný panel nástrojov</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/action.cpp" line="32"/>
+        <location filename="../src/action.cpp" line="33"/>
         <source>Application</source>
         <translation>Aplikácia</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="33"/>
+        <location filename="../src/action.cpp" line="34"/>
         <source>Session</source>
         <translation>Relácia</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="34"/>
+        <location filename="../src/action.cpp" line="35"/>
         <source>View</source>
         <translation>Zobraziť</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="35"/>
+        <location filename="../src/action.cpp" line="36"/>
         <source>Edit</source>
         <translation>Upraviť</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="36"/>
+        <location filename="../src/action.cpp" line="37"/>
         <source>Debug</source>
         <translation>Ladiť</translation>
     </message>
     <message>
-        <location filename="../src/action.cpp" line="37"/>
+        <location filename="../src/action.cpp" line="38"/>
         <source>Cloud</source>
         <translation></translation>
     </message>

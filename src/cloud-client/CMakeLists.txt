@@ -127,6 +127,8 @@ cloud_client_add_icon_resources(icons-application "/icons/application"
         pixmaps/range-qt.svg
         pixmaps/range-quit.svg
         pixmaps/range-release_notes.svg
+        pixmaps/range-ribbon_compact.svg
+        pixmaps/range-ribbon_layout.svg
         pixmaps/range-settings.svg
         pixmaps/range-update.svg
 )

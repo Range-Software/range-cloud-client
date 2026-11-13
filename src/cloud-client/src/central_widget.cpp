@@ -13,6 +13,26 @@
 #include "central_widget.h"
 #include "cloud_user_manager_widget.h"
 
+//! Append text at the end of the browser. Colors are given only to highlight
+//! text, otherwise the text follows the palette, also after the color scheme
+//! changes.
+static void appendText(QTextEdit *browser, const QString &text, const QColor &foreground = QColor(), const QColor &background = QColor())
+{
+    QTextCharFormat charFormat;
+    if (foreground.isValid())
+    {
+        charFormat.setForeground(foreground);
+    }
+    if (background.isValid())
+    {
+        charFormat.setBackground(background);
+    }
+    QTextCursor cursor(browser->document());
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText(text,charFormat);
+    browser->moveCursor(QTextCursor::End);
+}
+
 CentralWidget::CentralWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -73,7 +93,9 @@ void CentralWidget::setTabTitle(TabType tabType, RMessage::Type messageType, con
         defaultText += " (" + additionalText + ")";
     }
 
-    QColor tabTextColor = QApplication::palette().text().color();
+    // An invalid color lets the tab follow the palette, also after the color
+    // scheme changes. The palette color at this moment would stay.
+    QColor tabTextColor;
     if (messageType == RMessage::Type::Info)
     {
         defaultText.prepend("* ");
@@ -101,11 +123,7 @@ void CentralWidget::onInfoPrinted(const RMessage &message)
     int scrollBarValue = sb->value();
     bool scrollBarAtMax = ((sb->maximum() - scrollBarValue) <= 10);
 
-    this->applicationOutputBrowser->moveCursor(QTextCursor::End);
-    this->applicationOutputBrowser->setTextBackgroundColor(QApplication::palette().base().color());
-    this->applicationOutputBrowser->setTextColor(QApplication::palette().text().color());
-    this->applicationOutputBrowser->insertPlainText(RMessage::messageToLogString(message));
-    this->applicationOutputBrowser->moveCursor(QTextCursor::End);
+    appendText(this->applicationOutputBrowser,RMessage::messageToLogString(message));
     if (scrollBarAtMax)
     {
         scrollBarValue = sb->maximum();
@@ -121,15 +139,7 @@ void CentralWidget::onNoticePrinted(const RMessage &message)
 
 void CentralWidget::onWarningPrinted(const RMessage &message)
 {
-    QTextCharFormat charFormat = this->applicationOutputBrowser->currentCharFormat();
-
-    this->applicationOutputBrowser->moveCursor(QTextCursor::End);
-    this->applicationOutputBrowser->setTextBackgroundColor(QApplication::palette().base().color());
-    this->applicationOutputBrowser->setTextColor(QColor(170,0,0));
-    this->applicationOutputBrowser->insertPlainText(RMessage::messageToLogString(message));
-    this->applicationOutputBrowser->moveCursor(QTextCursor::End);
-    this->applicationOutputBrowser->setTextColor(QApplication::palette().text().color());
-    this->applicationOutputBrowser->setCurrentCharFormat(charFormat);
+    appendText(this->applicationOutputBrowser,RMessage::messageToLogString(message),QColor(170,0,0));
     QScrollBar *sb = this->applicationOutputBrowser->verticalScrollBar();
     sb->setValue(sb->maximum());
     this->setTabTitle(CentralWidget::Output,RMessage::Type::Warning);
@@ -137,16 +147,7 @@ void CentralWidget::onWarningPrinted(const RMessage &message)
 
 void CentralWidget::onErrorPrinted(const RMessage &message)
 {
-    QTextCharFormat charFormat = this->applicationOutputBrowser->currentCharFormat();
-
-    this->applicationOutputBrowser->moveCursor(QTextCursor::End);
-    this->applicationOutputBrowser->setTextBackgroundColor(QColor(170,0,0));
-    this->applicationOutputBrowser->setTextColor(QColor(255,255,255));
-    this->applicationOutputBrowser->insertPlainText(RMessage::messageToLogString(message));
-    this->applicationOutputBrowser->moveCursor(QTextCursor::End);
-    this->applicationOutputBrowser->setTextBackgroundColor(QApplication::palette().base().color());
-    this->applicationOutputBrowser->setTextColor(QApplication::palette().text().color());
-    this->applicationOutputBrowser->setCurrentCharFormat(charFormat);
+    appendText(this->applicationOutputBrowser,RMessage::messageToLogString(message),QColor(255,255,255),QColor(170,0,0));
     QScrollBar *sb = this->applicationOutputBrowser->verticalScrollBar();
     sb->setValue(sb->maximum());
     this->setTabTitle(CentralWidget::Output,RMessage::Type::Error);

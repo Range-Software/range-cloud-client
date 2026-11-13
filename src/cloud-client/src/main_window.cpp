@@ -7,6 +7,10 @@
 #include <QSplitter>
 #include <QScrollBar>
 #include <QHBoxLayout>
+#include <QActionGroup>
+#include <QSignalBlocker>
+#include <QToolButton>
+#include <QVBoxLayout>
 
 #include <rbl_error.h>
 #include <rbl_job_manager.h>
@@ -19,12 +23,16 @@
 #include <rgl_message_box.h>
 #include <rgl_progress_handler.h>
 #include <rgl_progress_bar.h>
+#include <rgl_ribbon_bar.h>
 
 #include "main_window.h"
 #include "action.h"
 #include "application.h"
 #include "central_widget.h"
 #include "cloud_session_combo_box.h"
+
+//! Version of tool bar arrangement. Increase it when tool bars change, to place them anew for existing users.
+static constexpr int toolBarsVersion = 2;
 
 MainWindow::MainWindow(RCloudSessionManager *cloudSession,
                        RApplicationSettings *applicationSettings,
@@ -34,6 +42,9 @@ MainWindow::MainWindow(RCloudSessionManager *cloudSession,
     , cloudSession{cloudSession}
     , applicationSettings{applicationSettings}
     , actionList{actionList}
+    , classicMenuBar{nullptr}
+    , ribbonBar{nullptr}
+    , ribbonSessionButton{nullptr}
     , isFirstRun{true}
 {
     R_LOG_TRACE_IN;
@@ -57,13 +68,50 @@ MainWindow::MainWindow(RCloudSessionManager *cloudSession,
 
     this->createMenus();
     this->createToolBars();
+    this->createRibbon();
     this->createStatusBar();
+
+    // Shortcut of an action works only while a widget holding the action is visible,
+    // which buttons on other pages of the ribbon are not.
+    for (uint i=0;i<this->actionList->getNActions();i++)
+    {
+        RAction *action = this->actionList->getAction(i);
+        if (action && !action->isSeparator())
+        {
+            this->addAction(action);
+        }
+    }
 
     CentralWidget *centralWidget = new CentralWidget;
     this->setCentralWidget(centralWidget);
 
     this->restoreGeometry(this->applicationSettings->value("mainWindow/geometry").toByteArray());
     this->restoreState(this->applicationSettings->value("mainWindow/windowState").toByteArray());
+
+    // Stored state knows only tool bars of the time it was saved.
+    if (this->applicationSettings->value("mainWindow/toolBarsVersion",1).toInt() != toolBarsVersion)
+    {
+        this->placeToolBars();
+        this->applicationSettings->setValue("mainWindow/toolBarsVersion",toolBarsVersion);
+    }
+
+    // Must follow restoring of the state, which brings back visibility of tool bars.
+    const bool ribbonLayout = this->applicationSettings->value("mainWindow/ribbonLayout",false).toBool();
+    {
+        const QSignalBlocker ribbonLayoutActionBlocker(this->actionList->getAction(Action::ACTION_APPLICATION_RIBBON_LAYOUT));
+        this->actionList->getAction(Action::ACTION_APPLICATION_RIBBON_LAYOUT)->setChecked(ribbonLayout);
+    }
+    this->setRibbonLayout(ribbonLayout);
+
+    const bool ribbonCompact = this->applicationSettings->value("mainWindow/ribbonCompact",false).toBool();
+    {
+        const QSignalBlocker ribbonCompactActionBlocker(this->actionList->getAction(Action::ACTION_APPLICATION_RIBBON_COMPACT));
+        this->actionList->getAction(Action::ACTION_APPLICATION_RIBBON_COMPACT)->setChecked(ribbonCompact);
+    }
+    this->ribbonBar->setCompact(ribbonCompact);
+
+    this->ribbonBar->setCollapsed(this->applicationSettings->value("mainWindow/ribbonCollapsed",false).toBool());
+    this->ribbonBar->setCurrentPage(this->applicationSettings->value("mainWindow/ribbonPage",0).toInt());
 
     // Toolbar icon size changed signal
     QObject::connect(this->applicationSettings,&RApplicationSettings::toolbarIconSizeChanged,this,&MainWindow::onToolbarIconSizeChanged);
@@ -95,14 +143,63 @@ void MainWindow::progressAutoHideDisable()
     this->mainProgressBar->setAutoHide(false);
 }
 
+void MainWindow::setRibbonLayout(bool ribbonLayout)
+{
+    R_LOG_TRACE_IN;
+    this->classicMenuBar->setVisible(!ribbonLayout);
+    this->ribbonBar->setVisible(ribbonLayout);
+
+    for (QToolBar *toolBar : std::as_const(this->toolBars))
+    {
+        toolBar->setVisible(!ribbonLayout);
+        // Otherwise context menu could bring tool bars back to the ribbon layout.
+        toolBar->toggleViewAction()->setVisible(!ribbonLayout);
+    }
+
+    this->applicationSettings->setValue("mainWindow/ribbonLayout",ribbonLayout);
+    R_LOG_TRACE_OUT;
+}
+
+void MainWindow::setRibbonCompact(bool ribbonCompact)
+{
+    R_LOG_TRACE_IN;
+    this->ribbonBar->setCompact(ribbonCompact);
+    this->applicationSettings->setValue("mainWindow/ribbonCompact",ribbonCompact);
+
+    // Asking for compact ribbon from the classic layout means asking for the ribbon as well.
+    if (ribbonCompact)
+    {
+        this->actionList->getAction(Action::ACTION_APPLICATION_RIBBON_LAYOUT)->setChecked(true);
+    }
+    R_LOG_TRACE_OUT;
+}
+
 void MainWindow::createMenus()
 {
     R_LOG_TRACE_IN;
-    QMenuBar *menubar = new QMenuBar(this);
-    this->setMenuBar(menubar);
+    // Menu bar and ribbon share the place above the tool bars, only one of them is visible at a time.
+    QWidget *menuWidget = new QWidget(this);
+    QVBoxLayout *menuWidgetLayout = new QVBoxLayout(menuWidget);
+    menuWidgetLayout->setContentsMargins(0,0,0,0);
+    menuWidgetLayout->setSpacing(0);
+    this->setMenuWidget(menuWidget);
 
-    QMenu *menuApplication = new QMenu(menubar);
-    menuApplication->setTitle(QApplication::translate("MainWindow", "Application"));
+    QMenuBar *menuBar = new QMenuBar(menuWidget);
+    menuBar->setNativeMenuBar(!this->applicationSettings->getDontUseNativeMenuBar());
+    menuWidgetLayout->addWidget(menuBar);
+    this->classicMenuBar = menuBar;
+
+    menuBar->addAction(this->createApplicationMenu(menuBar)->menuAction());
+    menuBar->addAction(this->createSessionMenu(menuBar)->menuAction());
+    menuBar->addAction(this->createHelpMenu(menuBar)->menuAction());
+    R_LOG_TRACE_OUT;
+}
+
+QMenu *MainWindow::createApplicationMenu(QWidget *parent)
+{
+    R_LOG_TRACE_IN;
+    QMenu *menuApplication = new QMenu(parent);
+    menuApplication->setTitle(tr("Application"));
     QMenu *menuApplicationFolders = new QMenu(menuApplication);
     menuApplicationFolders->setTitle(tr("Folders"));
     menuApplicationFolders->setIcon(RIcon::fromFile(":/icons/file/pixmaps/range-open.svg"));
@@ -112,59 +209,193 @@ void MainWindow::createMenus()
     menuApplicationFolders->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_FOLDER_SESSION));
     menuApplicationFolders->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_FOLDER_TMP));
     menuApplication->addAction(menuApplicationFolders->menuAction());
-    menuApplication->addAction(this->actionList->getAction(Action::ACTION_SEPARATOR));
+    menuApplication->addSeparator();
+    menuApplication->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_RIBBON_LAYOUT));
+    menuApplication->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_RIBBON_COMPACT));
     menuApplication->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_SETTINGS));
-    menuApplication->addAction(this->actionList->getAction(Action::ACTION_SEPARATOR));
+    menuApplication->addSeparator();
     menuApplication->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_QUIT));
-    menubar->addAction(menuApplication->menuAction());
+    R_LOG_TRACE_OUT;
+    return menuApplication;
+}
 
-    QMenu *menuSession = new QMenu(menubar);
-    menuSession->setTitle(QApplication::translate("MainWindow", "Session"));
+QMenu *MainWindow::createSessionMenu(QWidget *parent)
+{
+    R_LOG_TRACE_IN;
+    QMenu *menuSession = new QMenu(parent);
+    menuSession->setTitle(tr("Session"));
     menuSession->addAction(this->actionList->getAction(Action::ACTION_CLOUD_SESSION_MANAGER));
     menuSession->addAction(this->actionList->getAction(Action::ACTION_CLOUD_STATISTICS));
-    menubar->addAction(menuSession->menuAction());
+    R_LOG_TRACE_OUT;
+    return menuSession;
+}
 
-    QMenu *menuHelp = new QMenu(menubar);
-    menuHelp->setTitle(QApplication::translate("MainWindow", "Help"));
+QMenu *MainWindow::createHelpMenu(QWidget *parent)
+{
+    R_LOG_TRACE_IN;
+    QMenu *menuHelp = new QMenu(parent);
+    menuHelp->setTitle(tr("Help"));
     menuHelp->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_HELP));
     menuHelp->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_UPDATE));
     menuHelp->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_ABOUT));
     menuHelp->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_ABOUT_QT));
     menuHelp->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_LICENSE));
     menuHelp->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_RELEASE_NOTES));
-    menubar->addAction(menuHelp->menuAction());
     R_LOG_TRACE_OUT;
+    return menuHelp;
+}
+
+QMenu *MainWindow::createSessionSelectMenu(QWidget *parent)
+{
+    R_LOG_TRACE_IN;
+    QMenu *menu = new QMenu(parent);
+    // Sessions are listed anew each time, so the menu never shows a stale list.
+    QObject::connect(menu,&QMenu::aboutToShow,this,[this,menu]()
+    {
+        menu->clear();
+        QActionGroup *actionGroup = new QActionGroup(menu);
+        const QString activeSessionName = this->cloudSession->findActiveSessionName();
+        const QStringList sessionNames = this->cloudSession->getSessionNames();
+        for (const QString &sessionName : sessionNames)
+        {
+            QAction *action = menu->addAction(sessionName);
+            action->setCheckable(true);
+            action->setChecked(sessionName == activeSessionName);
+            actionGroup->addAction(action);
+            QObject::connect(action,&QAction::triggered,this,[this,sessionName]()
+            {
+                this->cloudSession->setActiveSessionName(sessionName);
+            });
+        }
+        if (!sessionNames.isEmpty())
+        {
+            menu->addSeparator();
+        }
+        menu->addAction(this->actionList->getAction(Action::ACTION_CLOUD_SESSION_MANAGER));
+    });
+    R_LOG_TRACE_OUT;
+    return menu;
 }
 
 void MainWindow::createToolBars()
 {
     R_LOG_TRACE_IN;
 
-    QToolBar *mainToolBar = new QToolBar(this);
-    mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-    mainToolBar->setWindowTitle(tr("Main toolbar"));
-    this->addToolBar(Qt::TopToolBarArea, mainToolBar);
+    auto action = [this](Action::Type type) -> QAction* { return this->actionList->getAction(type); };
 
-    CloudSessionComboBox *sessionComboBox = new CloudSessionComboBox(this->cloudSession);
-    mainToolBar->addWidget(sessionComboBox);
+    QToolBar *sessionToolBar = this->createToolBar("mainToolBar",tr("Session toolbar"));
+    CloudSessionComboBox *sessionComboBox = new CloudSessionComboBox(this->cloudSession,sessionToolBar);
+    sessionToolBar->addWidget(sessionComboBox);
+    sessionToolBar->addAction(action(Action::ACTION_CLOUD_SESSION_MANAGER));
+    sessionToolBar->addAction(action(Action::ACTION_CLOUD_STATISTICS));
 
-    mainToolBar->addAction(this->actionList->getAction(Action::ACTION_CLOUD_SESSION_MANAGER));
-    mainToolBar->addAction(this->actionList->getAction(Action::ACTION_CLOUD_STATISTICS));
+    QToolBar *applicationToolBar = this->createToolBar("applicationToolBar",tr("Application toolbar"));
 
-    this->addToolBarBreak();
-
-    mainToolBar->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_QUIT));
-
-    QWidget* spacer = new QWidget();
+    // Last tool bar of a row takes the remaining width, this pushes its buttons to the right edge of the window.
+    QWidget *spacer = new QWidget(applicationToolBar);
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    mainToolBar->addWidget(spacer);
+    applicationToolBar->addWidget(spacer);
 
-    mainToolBar->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_SETTINGS));
-    mainToolBar->addAction(this->actionList->getAction(Action::ACTION_SEPARATOR));
-    mainToolBar->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_HELP));
-    mainToolBar->addAction(this->actionList->getAction(Action::ACTION_APPLICATION_ABOUT));
+    applicationToolBar->addAction(action(Action::ACTION_APPLICATION_RIBBON_LAYOUT));
+    applicationToolBar->addAction(action(Action::ACTION_APPLICATION_SETTINGS));
+    applicationToolBar->addSeparator();
+    applicationToolBar->addAction(action(Action::ACTION_APPLICATION_HELP));
+
+    // Tool bars are placed in this order.
+    this->toolBars = { sessionToolBar, applicationToolBar };
+    this->placeToolBars();
 
     R_LOG_TRACE_OUT;
+}
+
+QToolBar *MainWindow::createToolBar(const QString &name, const QString &title)
+{
+    R_LOG_TRACE;
+    QToolBar *toolBar = new QToolBar(this);
+    toolBar->setObjectName(name);
+    toolBar->setWindowTitle(title);
+    // An icon size the tool bar only inherits from the main window is replaced
+    // by the default one of the style whenever the style or color scheme
+    // changes. Set explicitly, it is kept.
+    toolBar->setIconSize(this->iconSize());
+    return toolBar;
+}
+
+void MainWindow::placeToolBars()
+{
+    R_LOG_TRACE_IN;
+    for (QToolBar *toolBar : std::as_const(this->toolBars))
+    {
+        this->removeToolBar(toolBar);
+    }
+    for (QToolBar *toolBar : std::as_const(this->toolBars))
+    {
+        this->addToolBar(Qt::TopToolBarArea,toolBar);
+        // Removing a tool bar hides it.
+        toolBar->show();
+    }
+    R_LOG_TRACE_OUT;
+}
+
+void MainWindow::createRibbon()
+{
+    R_LOG_TRACE_IN;
+    this->ribbonBar = new RRibbonBar(this->menuWidget());
+    this->menuWidget()->layout()->addWidget(this->ribbonBar);
+    this->ribbonBar->setIconSize(this->applicationSettings->getToolbarIconSize());
+
+    auto action = [this](Action::Type type) -> QAction* { return this->actionList->getAction(type); };
+
+    // Line with tabs
+    this->ribbonBar->addLeadingMenu(tr("Application"),this->createApplicationMenu(this->ribbonBar));
+
+    this->ribbonBar->addTrailingAction(action(Action::ACTION_APPLICATION_RIBBON_LAYOUT));
+    this->ribbonBar->addTrailingAction(action(Action::ACTION_APPLICATION_RIBBON_COMPACT));
+    this->ribbonBar->addTrailingAction(action(Action::ACTION_APPLICATION_SETTINGS));
+    this->ribbonBar->addTrailingMenu(tr("Help"),action(Action::ACTION_APPLICATION_HELP)->icon(),this->createHelpMenu(this->ribbonBar));
+
+    RRibbonGroup *group = nullptr;
+
+    // Session
+    const int sessionPage = this->ribbonBar->addPage(tr("Session"));
+
+    group = this->ribbonBar->addGroup(sessionPage,tr("Session"));
+    group->addLargeAction(action(Action::ACTION_CLOUD_SESSION_MANAGER),tr("Manager"));
+    group->addLargeAction(action(Action::ACTION_CLOUD_STATISTICS));
+    // Session combo box is on the tool bar, which the ribbon layout hides.
+    this->ribbonSessionButton = group->addSmallMenu(QString(),
+                                                    action(Action::ACTION_CLOUD_SESSION_MANAGER)->icon(),
+                                                    this->createSessionSelectMenu(this->ribbonBar));
+    this->ribbonSessionButton->setToolTip(tr("Select active session"));
+    this->updateRibbonSessionButton();
+    QObject::connect(this->cloudSession,&RCloudSessionManager::activeSessionChanged,this,&MainWindow::updateRibbonSessionButton);
+    QObject::connect(this->cloudSession,&RCloudSessionManager::sessionRenamed,this,&MainWindow::updateRibbonSessionButton);
+    QObject::connect(this->cloudSession,&RCloudSessionManager::sessionRemoved,this,&MainWindow::updateRibbonSessionButton);
+
+    // Application
+    const int applicationPage = this->ribbonBar->addPage(tr("Application"));
+
+    group = this->ribbonBar->addGroup(applicationPage,tr("Folders"));
+    group->addSmallAction(action(Action::ACTION_APPLICATION_FOLDER_CERT));
+    group->addSmallAction(action(Action::ACTION_APPLICATION_FOLDER_DATA));
+    group->addSmallAction(action(Action::ACTION_APPLICATION_FOLDER_LOG));
+    group->addSmallAction(action(Action::ACTION_APPLICATION_FOLDER_SESSION));
+    group->addSmallAction(action(Action::ACTION_APPLICATION_FOLDER_TMP));
+
+    group = this->ribbonBar->addGroup(applicationPage,tr("Software"));
+    group->addLargeAction(action(Action::ACTION_APPLICATION_UPDATE),tr("Update"));
+    group->addSmallAction(action(Action::ACTION_APPLICATION_RELEASE_NOTES));
+    group->addSmallAction(action(Action::ACTION_APPLICATION_LICENSE));
+    group->addSmallAction(action(Action::ACTION_APPLICATION_ABOUT));
+
+    R_LOG_TRACE_OUT;
+}
+
+void MainWindow::updateRibbonSessionButton()
+{
+    R_LOG_TRACE;
+    const QString activeSessionName = this->cloudSession->findActiveSessionName();
+    this->ribbonSessionButton->setText(activeSessionName.isEmpty() ? tr("No session") : activeSessionName);
 }
 
 void MainWindow::createStatusBar()
@@ -223,6 +454,8 @@ void MainWindow::writeSettings() const
     // Main window
     this->applicationSettings->setValue("mainWindow/geometry", this->saveGeometry());
     this->applicationSettings->setValue("mainWindow/windowState", this->saveState());
+    this->applicationSettings->setValue("mainWindow/ribbonCollapsed", this->ribbonBar->isCollapsed());
+    this->applicationSettings->setValue("mainWindow/ribbonPage", this->ribbonBar->getCurrentPage());
 
     // Shortcuts
     for (uint i=0;i<this->actionList->getNActions();i++)
@@ -324,4 +557,11 @@ void MainWindow::onToolbarIconSizeChanged(int toolbarIconSize)
 {
     R_LOG_TRACE;
     this->setIconSize(QSize(toolbarIconSize,toolbarIconSize));
+    // Tool bars have their icon size set explicitly, so they do not follow the
+    // main window.
+    for (QToolBar *toolBar : std::as_const(this->toolBars))
+    {
+        toolBar->setIconSize(QSize(toolbarIconSize,toolbarIconSize));
+    }
+    this->ribbonBar->setIconSize(toolbarIconSize);
 }
